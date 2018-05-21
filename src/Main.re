@@ -1,3 +1,5 @@
+[%bs.raw {|require('../../../src/Main.css')|}];
+
 type route =
   | HomeRoute
   | AboutRoute
@@ -22,6 +24,8 @@ let reducer = (action, _state) =>
 
 let component = ReasonReact.reducerComponent("Main");
 
+let foo = NumberGenerators.powers_of_ten;
+
 let make = _children => {
   ...component,
   reducer,
@@ -37,7 +41,7 @@ let make = _children => {
   ],
   render: self =>
     <div>
-      <h1> (ReasonReact.string("My Reason React Starter App!")) </h1>
+      <h1> (ReasonReact.string("Interesting Anniversaries")) </h1>
       <menu>
         <li> <Link path="/"> ...(ReasonReact.string("Home")) </Link> </li>
         <li>

@@ -26,11 +26,14 @@ let make = (~greeting, _children) => {
     | Toggle => ReasonReact.Update({...state, show: ! state.show})
     },
   render: self => {
+    let now = Js.Date.make();
+    let future = DateFns.addWeeks(1.0, now);
+    let s = DateFns.distanceInWords(future, now);
     let message =
       "You've clicked this " ++ string_of_int(self.state.count) ++ " times(s)";
     <div>
       <button onClick=(_event => self.send(Click))>
-        (ReasonReact.stringToElement(message))
+        (ReasonReact.stringToElement(s))
       </button>
       <button onClick=(_event => self.send(Toggle))>
         (ReasonReact.stringToElement("Toggle greeting"))
