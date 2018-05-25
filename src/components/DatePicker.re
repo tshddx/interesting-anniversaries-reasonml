@@ -6,8 +6,7 @@ type state = {
 
 let initial_state = {year: None, month: None, day: None};
 
-let initial_state = {year: Some(1987), month: Some(7), day: Some(5)};
-
+/* let initial_state = {year: Some(1987), month: Some(7), day: Some(5)}; */
 type action =
   | SetYear(option(int))
   | SetMonth(option(int))
@@ -122,6 +121,7 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
         (ReasonReact.string("Year:"))
         <br />
         <select
+          className="DatePicker__year DatePicker__select"
           value=year_value
           onChange=(event => self.send(SetYear(getInt(event))))>
           (
@@ -137,6 +137,7 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
         (ReasonReact.string("Month:"))
         <br />
         <select
+          className="DatePicker__month DatePicker__select"
           value=month_value
           onChange=(event => self.send(SetMonth(getInt(event))))>
           (
@@ -152,6 +153,7 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
         (ReasonReact.string("Day:"))
         <br />
         <select
+          className="DatePicker__day DatePicker__select"
           value=day_value
           disabled=(
             switch (days_in_month) {

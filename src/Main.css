@@ -1,13 +1,63 @@
 html {
-  font-size: 22px;
+  font-size: 20px;
+  color: #222;
 }
 
 body {
-  margin: 1em;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+html,
+body {
+  height: 100%;
+  background-color: #fce043;
+}
+
+a {
+  color: #135abe;
+  text-decoration: none;
+}
+
+#main {
+  padding-bottom: env(safe-area-inset-bottom);
+  height: 100%;
+}
+
+.Main {
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+}
+
+.Row {
+  padding: 1em;
+}
+
+.Header {
+  background-color: #fce043;
+  background-image: linear-gradient(315deg, #fb7ba2 0%, #fce043 88%);
+  background-attachment: fixed;
+}
+
+.Main__routeHolder {
+  background-color: #b8c6db;
+  background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
+  background-attachment: fixed;
+  flex: 1 0 auto;
+}
+
+.Footer {
+  background-color: #fb7ba2;
+  background-image: linear-gradient(315deg, #fce043 0%, #fb7ba2 74%);
+  background-attachment: fixed;
+  flex-shrink: 0;
 }
 
 select {
-  font-size: 22px;
+  height: 40px;
+  font-size: 20px;
   width: 200px;
 }
 
@@ -19,8 +69,29 @@ select {
   margin-bottom: 0.5em;
 }
 
+.DatePicker__select {
+  border: 1px solid #99d6d4;
+}
+
+.DatePicker__year {
+  background-color: #fce9e9;
+}
+
+.DatePicker__month {
+  background-color: #e0fbe0;
+}
+
+.DatePicker__day {
+  background-color: #e9e9fc;
+}
+
+.DatePicker__day[disabled] {
+  opacity: 0.8;
+}
+
 .Anniversaries {
   text-align: left;
+  margin-left: -1em;
 }
 
 .Menu {
@@ -29,8 +100,4 @@ select {
 
 li {
   margin-bottom: 0.5em;
-}
-
-.Main__routeHolder {
-  margin-bottom: 2em;
 }

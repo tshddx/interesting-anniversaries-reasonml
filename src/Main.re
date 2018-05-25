@@ -38,10 +38,11 @@ let make = _children => {
     ),
   ],
   render: self =>
-    <div>
-      <h1> (ReasonReact.string("Interesting Anniversaries")) </h1>
-      <hr />
-      <div className="Main__routeHolder">
+    <div className="Main">
+      <div className="Row Header">
+        <h1> (ReasonReact.string("Interesting Anniversaries")) </h1>
+      </div>
+      <div className="Row Main__routeHolder">
         (
           switch (self.state.route) {
           | HomeRoute => <HomePage greeting="Hello!" />
@@ -50,8 +51,7 @@ let make = _children => {
           }
         )
       </div>
-      <hr />
-      <div>
+      <div className="Row Footer">
         <p>
           (
             ReasonReact.string(
