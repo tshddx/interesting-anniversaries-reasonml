@@ -24,8 +24,6 @@ let reducer = (action, _state) =>
 
 let component = ReasonReact.reducerComponent("Main");
 
-let foo = NumberGenerators.powers_of_ten;
-
 let make = _children => {
   ...component,
   reducer,

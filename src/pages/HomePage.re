@@ -27,20 +27,36 @@ let make = (~greeting, _children) => {
     },
   render: self => {
     let now = Js.Date.make();
+    let birthday = Js.Date.makeWithYMD(1987.0, 7.0, 5.0, ());
     let future = DateFns.addWeeks(1.0, now);
     let s = DateFns.distanceInWords(future, now);
-    let message =
-      "You've clicked this " ++ string_of_int(self.state.count) ++ " times(s)";
+    let dates = AnniversaryGenerator.generate(birthday, now);
     <div>
-      <button onClick=(_event => self.send(Click))>
-        (ReasonReact.stringToElement(s))
-      </button>
-      <button onClick=(_event => self.send(Toggle))>
-        (ReasonReact.stringToElement("Toggle greeting"))
-      </button>
       (
-        self.state.show ?
-          ReasonReact.stringToElement(greeting) : ReasonReact.nullElement
+        dates
+        |> List.map((ann: Anniversary.t) =>
+             <li>
+               (ReasonReact.string("On "))
+               (ReasonReact.string(DateFns.format("MMMM D, YYYY", ann.date)))
+               (ReasonReact.string(" you will be "))
+               (
+                 ReasonReact.string(CommaNumber.commaNumber(ann.number.value))
+               )
+               (ReasonReact.string(" "))
+               (
+                 ReasonReact.string(
+                   switch (ann.number.description) {
+                   | Some(description) => {j|($description) |j}
+                   | None => ""
+                   },
+                 )
+               )
+               (ReasonReact.string(ann.units))
+               (ReasonReact.string(" old!"))
+             </li>
+           )
+        |> Array.of_list
+        |> ReasonReact.array
       )
     </div>;
   },
