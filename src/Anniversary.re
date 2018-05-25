@@ -47,4 +47,4 @@ let years = (date, number) => {
   number,
 };
 
-let calculators = [seconds, minutes, days, weeks, months, years];
+let calculators = [seconds, minutes, hours, days, weeks, months, years];

@@ -46,4 +46,37 @@ let factors_of_ten = () =>
   )
   |> List.flatten;
 
-let generators = [powers_of_ten, powers_of_two, factors_of_ten];
+let repeated_digits = () => {
+  let nums = ref([]);
+  for (exponent in 3 to 10) {
+    let power_of_ten = 10.0 ** float_of_int(exponent);
+    let all_ones = (power_of_ten -. 1.0) /. 9.0;
+    for (digit in 1 to 9) {
+      let value = float_of_int(digit) *. all_ones;
+      let number = {category: "repeated_digits", value, description: None};
+      let n = nums^;
+      nums := [number, ...n];
+    };
+  };
+  nums^;
+};
+
+let counting_up = () => {
+  let nums = ref([]);
+  for (exponent in 5 to 10) {
+    let power_of_ten = 10.0 ** float_of_int(exponent);
+    let value = floor(137174210.0 /. 1111111111.0 *. power_of_ten);
+    let number = {category: "counting_up", value, description: None};
+    let n = nums^;
+    nums := [number, ...n];
+  };
+  nums^;
+};
+
+let generators = [
+  powers_of_ten,
+  powers_of_two,
+  factors_of_ten,
+  repeated_digits,
+  counting_up,
+];

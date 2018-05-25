@@ -40,14 +40,8 @@ let make = _children => {
   render: self =>
     <div>
       <h1> (ReasonReact.string("Interesting Anniversaries")) </h1>
-      <menu>
-        <li> <Link path="/"> ...(ReasonReact.string("Home")) </Link> </li>
-        <li>
-          <Link path="about"> ...(ReasonReact.string("About")) </Link>
-        </li>
-      </menu>
       <hr />
-      <div>
+      <div className="Main__routeHolder">
         (
           switch (self.state.route) {
           | HomeRoute => <HomePage greeting="Hello!" />
@@ -55,6 +49,28 @@ let make = _children => {
           | NoRoute => <NotFoundPage />
           }
         )
+      </div>
+      <hr />
+      <div>
+        <p>
+          (
+            ReasonReact.string(
+              "Interesting Anniversaries is a recreational coding exercise by ",
+            )
+          )
+          <a href="https://twitter.com/baddox">
+            (ReasonReact.string("Thomas Shaddox"))
+          </a>
+          (ReasonReact.string("."))
+        </p>
+        <p>
+          (ReasonReact.string("The source code is on "))
+          <a
+            href="https://github.com/baddox/interesting-anniversaries-reasonml">
+            (ReasonReact.string("GitHub"))
+          </a>
+          (ReasonReact.string("."))
+        </p>
       </div>
     </div>,
 };

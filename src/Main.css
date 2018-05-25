@@ -1,4 +1,36 @@
+html {
+  font-size: 22px;
+}
+
 body {
   margin: 1em;
-  font-size: 20px;
+}
+
+select {
+  font-size: 22px;
+  width: 200px;
+}
+
+.DatePicker {
+  margin-bottom: 2em;
+}
+
+.DatePicker__field {
+  margin-bottom: 0.5em;
+}
+
+.Anniversaries {
+  text-align: left;
+}
+
+.Menu {
+  list-style: none;
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
+.Main__routeHolder {
+  margin-bottom: 2em;
 }
