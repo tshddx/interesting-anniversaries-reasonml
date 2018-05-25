@@ -14,7 +14,6 @@ let make = (~greeting, _children) => {
     },
   render: self => {
     let now = Js.Date.make();
-    /* let birthday = Js.Date.makeWithYMD(1987.0, 7.0, 5.0, ()); */
     let anniversaries =
       switch (self.state.birthday) {
       | Some(birthday) =>
@@ -24,31 +23,7 @@ let make = (~greeting, _children) => {
             (
               dates
               |> List.map((ann: Anniversary.t) =>
-                   <li>
-                     (ReasonReact.string("On "))
-                     (
-                       ReasonReact.string(
-                         DateFns.format("MMMM D, YYYY", ann.date),
-                       )
-                     )
-                     (ReasonReact.string(" you will be "))
-                     (
-                       ReasonReact.string(
-                         CommaNumber.commaNumber(ann.number.value),
-                       )
-                     )
-                     (ReasonReact.string(" "))
-                     (
-                       ReasonReact.string(
-                         switch (ann.number.description) {
-                         | Some(description) => {j|($description) |j}
-                         | None => ""
-                         },
-                       )
-                     )
-                     (ReasonReact.string(ann.units))
-                     (ReasonReact.string(" old!"))
-                   </li>
+                   <li> <AnniversaryItem anniversary=ann /> </li>
                  )
               |> Array.of_list
               |> ReasonReact.array

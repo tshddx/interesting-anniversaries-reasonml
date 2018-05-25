@@ -18,6 +18,7 @@ body {
 a {
   color: #135abe;
   text-decoration: none;
+  font-weight: 500;
 }
 
 #main {
@@ -72,15 +73,15 @@ select {
 }
 
 .DatePicker__year {
-  background-color: #fce9e9;
+  background-color: #faebeb;
 }
 
 .DatePicker__month {
-  background-color: #e0fbe0;
+  background-color: #e3f8e3;
 }
 
 .DatePicker__day {
-  background-color: #e9e9fc;
+  background-color: #f5f8e3;
 }
 
 .DatePicker__day[disabled] {

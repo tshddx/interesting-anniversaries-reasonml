@@ -4,3 +4,5 @@ let intToFloat = i => i |> Int32.of_int |> Int32.to_float;
 
 let exp = (base, exponent) =>
   intToFloat(base) ** intToFloat(exponent) |> floatToInt;
+
+let df = date => DateFns.format("MMMM D, YYYY", date);
