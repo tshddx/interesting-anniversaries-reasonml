@@ -42,9 +42,7 @@ a {
 }
 
 .Main__routeHolder {
-  background-color: #b8c6db;
-  background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
-  background-attachment: fixed;
+  background-color: #e9ecf2;
   flex: 1 0 auto;
 }
 
