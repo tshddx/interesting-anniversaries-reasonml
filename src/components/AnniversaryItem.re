@@ -27,7 +27,7 @@ let make = (~anniversary: Anniversary.t, _children) => {
         (ReasonReact.string({| On |}))
         (ReasonReact.string(anniversary.date |> Utils.df))
         (ReasonReact.string(" you will be the same age as "))
-        (ReasonReact.string(achievement.name))
+        <b> (ReasonReact.string(achievement.name)) </b>
         (ReasonReact.string(" when "))
         (ReasonReact.string(achievement.achievement))
         (ReasonReact.string("!"))
