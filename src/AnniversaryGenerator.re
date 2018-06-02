@@ -2,20 +2,20 @@ open Iterator;
 
 let generate = birthday => {
   let maxDate = DateFns.addYears(150.0, birthday);
-  let generators = InterestingNumber.generators |> from_list;
-  let calculators = Anniversary.calculators |> from_list;
+  let generators = InterestingNumber.generators |> fromList;
+  let calculators = Anniversary.calculators |> fromList;
   let pairs = product(generators, calculators);
   let iterator =
     pairs
     |> map(((generator, calculator)) =>
          generator()
          |> map(number => calculator(birthday, number))
-         |> take_while((ann: Anniversary.t) =>
+         |> takeWhile((ann: Anniversary.t) =>
               ann.date |> DateFns.isBefore(maxDate)
             )
-         |> to_list
+         |> toList
        );
-  let lists = iterator |> to_list;
+  let lists = iterator |> toList;
   let anniversaries = List.concat(lists);
   let achievements =
     Anniversary.achievements

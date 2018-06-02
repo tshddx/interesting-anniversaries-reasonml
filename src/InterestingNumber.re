@@ -11,12 +11,12 @@ let powers_of_ten = (start, ()) =>
 
 let factors_of_ten = () =>
   powers_of_ten(0, ())
-  |> map_iter(i => just(2.0 *. i) |> and_then(() => just(5.0 *. i)));
+  |> mapIter(i => just(2.0 *. i) |> andThen(() => just(5.0 *. i)));
 
 let repeated_digits = () =>
   powers_of_ten(3, ())
   |> map(pow => (pow -. 1.0) /. 9.0)
-  |> map_iter(all_ones =>
+  |> mapIter(all_ones =>
        range(1, 9) |> map(digit => float_of_int(digit) *. all_ones)
      );
 
