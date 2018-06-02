@@ -6,7 +6,8 @@ type state = {
 
 let initial_state = {year: None, month: None, day: None};
 
-/* let initial_state = {year: Some(1987), month: Some(7), day: Some(5)}; */
+let initial_state = {year: Some(1987), month: Some(7), day: Some(5)};
+
 type action =
   | SetYear(option(int))
   | SetMonth(option(int))
@@ -67,8 +68,10 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
   initialState: () => initial_state,
   reducer,
   shouldUpdate: ({oldSelf, newSelf}) => oldSelf.state != newSelf.state,
+  didMount: self => onDateChange(getDate(self.state)),
+  didUpdate: ({newSelf}) => onDateChange(getDate(newSelf.state)),
   render: self => {
-    onDateChange(getDate(self.state));
+    /* onDateChange(getDate(self.state)); */
     let {year, month, day} = self.state;
     let days_in_month = daysInMonth(self.state);
     let thisYear = Js.Date.make() |> DateFns.getYear |> int_of_float;
@@ -127,7 +130,9 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
           (
             years
             |> Array.map(year =>
-                 <option value=year> (ReasonReact.string(year)) </option>
+                 <option key=year value=year>
+                   (ReasonReact.string(year))
+                 </option>
                )
             |> ReasonReact.array
           )
@@ -143,7 +148,9 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
           (
             months
             |> Array.map(((value, month)) =>
-                 <option value> (ReasonReact.string(month)) </option>
+                 <option key=value value>
+                   (ReasonReact.string(month))
+                 </option>
                )
             |> ReasonReact.array
           )
@@ -165,7 +172,7 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
           (
             days
             |> Array.map(i =>
-                 <option value=i> (ReasonReact.string(i)) </option>
+                 <option key=i value=i> (ReasonReact.string(i)) </option>
                )
             |> ReasonReact.array
           )
