@@ -1,6 +1,6 @@
 let component = ReasonReact.statelessComponent("AnniversaryItem");
 
-let make = (~anniversary: Anniversary.t, _children) => {
+let make = (~anniversary: Anniversary.t, ~isPast: bool, _children) => {
   ...component,
   render: _self =>
     switch (anniversary.source) {
@@ -8,7 +8,7 @@ let make = (~anniversary: Anniversary.t, _children) => {
       <span>
         (ReasonReact.string("On "))
         (ReasonReact.string(anniversary.date |> Utils.df))
-        (ReasonReact.string(" you will be "))
+        (ReasonReact.string(isPast ? " you were " : " you will be "))
         (ReasonReact.string(CommaNumber.commaNumber(number.value)))
         (ReasonReact.string(" "))
         (
@@ -26,7 +26,12 @@ let make = (~anniversary: Anniversary.t, _children) => {
       <span>
         (ReasonReact.string({| On |}))
         (ReasonReact.string(anniversary.date |> Utils.df))
-        (ReasonReact.string(" you will be the same age as "))
+        (
+          ReasonReact.string(
+            isPast ?
+              " you were the same age as " : " you will be the same age as ",
+          )
+        )
         <b> (ReasonReact.string(achievement.name)) </b>
         (ReasonReact.string(" when "))
         (ReasonReact.string(achievement.achievement))

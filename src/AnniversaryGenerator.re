@@ -1,41 +1,59 @@
 open Iterator;
 
-let generate = (birthday, now) : list(Anniversary.t) => {
-  let anniversaries = ref([]: list(Anniversary.t));
-  let max_date = DateFns.addYears(150.0, birthday);
+let generate = birthday => {
+  let maxDate = DateFns.addYears(150.0, birthday);
   let generators = InterestingNumber.generators |> from_list;
   let calculators = Anniversary.calculators |> from_list;
   let pairs = product(generators, calculators);
-  pairs
-  |> map(((generator, calculator)) => {
-       let ff = 1;
-       ();
-       generator()
-       |> map(number => calculator(birthday, number))
-       |> take_while((anniversary: Anniversary.t) =>
-            anniversary.date |> DateFns.isBefore(max_date)
-          )
-       |> to_list;
-     })
-  |> to_list
-  |> List.concat
-  |> List.sort((a: Anniversary.t, b: Anniversary.t)
-       /* DateFns.compareAsc(a.Anniversary.date, b.Anniversary.date) */
-       => compare(DateFns.getTime(a.date), DateFns.getTime(b.date)))
-  |> List.filter((ann: Anniversary.t) =>
-       DateFns.compareAsc(ann.date, now) >= 0
-       && ann.Anniversary.date
-       |> DateFns.isBefore(max_date)
+  let iterator =
+    pairs
+    |> map(((generator, calculator)) => {
+         let anns =
+           generator() |> map(number => calculator(birthday, number));
+         let anns =
+           anns
+           |> take_while((ann: Anniversary.t) =>
+                ann.date |> DateFns.isBefore(maxDate)
+              );
+         anns |> to_list;
+       });
+  let lists = iterator |> to_list;
+  let anniversaries = List.concat(lists);
+  let achievements =
+    Anniversary.achievements
+    |> List.map((achievement: Anniversary.achievement) => {
+         let difference =
+           DateFns.differenceInCalendarDays(
+             achievement.date,
+             achievement.birthday,
+           );
+         let date = DateFns.addDays(difference, birthday);
+         Anniversary.{date, source: Achievement(achievement)};
+       });
+  List.append(anniversaries, achievements)
+  |> List.sort((a: Anniversary.t, b: Anniversary.t) =>
+       compare(DateFns.getTime(a.date), DateFns.getTime(b.date))
      );
-  /* Anniversary.achievements
-     |> List.iter((achievement: Anniversary.achievement) => {
-          let difference =
-            DateFns.differenceInCalendarDays(
-              achievement.date,
-              achievement.birthday,
-            );
-          let date = DateFns.addDays(difference, birthday);
-          anniversaries :=
-            [{date, source: Achievement(achievement)}, ...anniversaries^];
-        }); */
+};
+
+type anniversaryList = {
+  past: array(Anniversary.t),
+  shownPast: array(Anniversary.t),
+  future: array(Anniversary.t),
+};
+
+let get = (birthday, now, beforeNow) => {
+  let anniversaries = generate(birthday);
+  let isPast = (ann: Anniversary.t) => ann.date |> DateFns.isBefore(now);
+  let (past, future) = anniversaries |> List.partition(isPast);
+  let past = past |> Array.of_list;
+  let future = future |> Array.of_list;
+  let length = Array.length(past);
+  let beforeNow = min(beforeNow, length);
+  let countShown = beforeNow;
+  let countHidden = length - countShown;
+  let hiddenPast = Array.sub(past, 0, countHidden);
+  let shownPast =
+    countShown == 0 ? [||] : Array.sub(past, length - countShown, countShown);
+  {past: hiddenPast, shownPast, future};
 };

@@ -47,6 +47,9 @@ let rec map_item = (func, iterator) =>
   | StopIteration => stop
   };
 
+let rec filter = (predicate, iterator) =>
+  iterator |> map_iter(item => predicate(item) ? just(item) : stop);
+
 /* let rec map_iter = (make_iterator, iterator) =>
    switch (iterator()) {
    | Item(item, next) =>

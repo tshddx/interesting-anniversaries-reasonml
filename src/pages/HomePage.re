@@ -1,7 +1,11 @@
-type state = {birthday: option(Js.Date.t)};
+type state = {
+  birthday: option(Js.Date.t),
+  beforeNow: int,
+};
 
 type action =
-  | SetBirthday(option(Js.Date.t));
+  | SetBirthday(option(Js.Date.t))
+  | ShowMore;
 
 let component = ReasonReact.reducerComponent("HomePage");
 
@@ -9,62 +13,41 @@ open Iterator;
 
 let make = (~greeting, _children) => {
   ...component,
-  initialState: () => {birthday: None},
+  initialState: () => {birthday: None, beforeNow: 0},
   reducer: (action, state) =>
     switch (action) {
     | SetBirthday(birthday) => ReasonReact.Update({...state, birthday})
+    | ShowMore =>
+      ReasonReact.Update({...state, beforeNow: state.beforeNow + 50})
     },
   render: self => {
     let now = Js.Date.make();
-    /* let generators = InterestingNumber.generators;
-       let cats =
-         <div>
-           (
-             generators
-             |> List.map(gen =>
-                  gen()
-                  |> take(5)
-                  |> map((num: InterestingNumber.t) =>
-                       <div>
-                         (ReasonReact.string(num.category))
-                         (ReasonReact.string(": "))
-                         (ReasonReact.string(string_of_float(num.value)))
-                       </div>
-                     )
-                  |> to_list
-                  |> Array.of_list
-                  |> ReasonReact.array
-                )
-             |> Array.of_list
-             |> ReasonReact.array
-           )
-         </div>; */
-    Js.log(self.state.birthday);
     let anniversaries =
       switch (self.state.birthday) {
       | Some(birthday) =>
-        let dates = AnniversaryGenerator.generate(birthday, now);
-        Js.log(List.length(dates));
+        let anns: AnniversaryGenerator.anniversaryList =
+          AnniversaryGenerator.get(birthday, now, self.state.beforeNow);
+        let past = anns.past;
+        let shownPast = anns.shownPast;
+        let future = anns.future;
         <div className="Anniversaries">
-          <ul>
-            (
-              dates
-              |> List.mapi((index, ann: Anniversary.t) =>
-                   <li>
-                     <AnniversaryItem
-                       key=(string_of_int(index))
-                       anniversary=ann
-                     />
-                   </li>
-                 )
-              |> Array.of_list
-              |> ReasonReact.array
-            )
-          </ul>
+          (
+            Array.length(past) > 0 ?
+              <button
+                className="PreviousButton"
+                onClick=(_e => self.send(ShowMore))>
+                (ReasonReact.string("See previous anniversaries"))
+              </button> :
+              ReasonReact.null
+          )
+          (
+            Array.length(shownPast) > 0 ?
+              <AnniversaryList anniversaries=shownPast isPast=true /> :
+              ReasonReact.null
+          )
+          <AnniversaryList anniversaries=future isPast=false />
         </div>;
-      | None =>
-        Js.log("no birthday");
-        ReasonReact.null;
+      | None => ReasonReact.null
       };
     <div>
       <h2> (ReasonReact.string("What is your birthday?")) </h2>
