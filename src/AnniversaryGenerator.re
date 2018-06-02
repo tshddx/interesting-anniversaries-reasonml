@@ -7,16 +7,14 @@ let generate = birthday => {
   let pairs = product(generators, calculators);
   let iterator =
     pairs
-    |> map(((generator, calculator)) => {
-         let anns =
-           generator() |> map(number => calculator(birthday, number));
-         let anns =
-           anns
-           |> take_while((ann: Anniversary.t) =>
-                ann.date |> DateFns.isBefore(maxDate)
-              );
-         anns |> to_list;
-       });
+    |> map(((generator, calculator)) =>
+         generator()
+         |> map(number => calculator(birthday, number))
+         |> take_while((ann: Anniversary.t) =>
+              ann.date |> DateFns.isBefore(maxDate)
+            )
+         |> to_list
+       );
   let lists = iterator |> to_list;
   let anniversaries = List.concat(lists);
   let achievements =

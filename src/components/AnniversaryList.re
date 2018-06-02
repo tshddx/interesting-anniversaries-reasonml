@@ -7,12 +7,8 @@ let make = (~anniversaries: array(Anniversary.t), ~isPast: bool, _children) => {
       (
         anniversaries
         |> Array.mapi((index, ann: Anniversary.t) =>
-             <li>
-               <AnniversaryItem
-                 key=(string_of_int(index))
-                 anniversary=ann
-                 isPast
-               />
+             <li key=(string_of_int(index))>
+               <AnniversaryItem anniversary=ann isPast />
              </li>
            )
         |> ReasonReact.array

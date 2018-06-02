@@ -16,9 +16,10 @@ let make = (~greeting, _children) => {
   initialState: () => {birthday: None, beforeNow: 0},
   reducer: (action, state) =>
     switch (action) {
-    | SetBirthday(birthday) => ReasonReact.Update({...state, birthday})
+    | SetBirthday(birthday) =>
+      ReasonReact.Update({...state, birthday, beforeNow: 0})
     | ShowMore =>
-      ReasonReact.Update({...state, beforeNow: state.beforeNow + 50})
+      ReasonReact.Update({...state, beforeNow: state.beforeNow + 10})
     },
   render: self => {
     let now = Js.Date.make();
@@ -45,6 +46,7 @@ let make = (~greeting, _children) => {
               <AnniversaryList anniversaries=shownPast isPast=true /> :
               ReasonReact.null
           )
+          (Array.length(shownPast) > 0 ? <hr /> : ReasonReact.null)
           <AnniversaryList anniversaries=future isPast=false />
         </div>;
       | None => ReasonReact.null
