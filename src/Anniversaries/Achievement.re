@@ -1,39 +1,11 @@
-type achievement = {
+/* birthday is the birthday of the achiever, and date is the date that person
+   achieved the achievement. */
+type t = {
   name: string,
   achievement: string,
   birthday: Js.Date.t,
   date: Js.Date.t,
 };
-
-type source =
-  | InterestingNumber(string, InterestingNumber.t)
-  | Achievement(achievement);
-
-type t = {
-  date: Js.Date.t,
-  source,
-};
-
-let timeUnit = (unit, adder, date, number) => {
-  date: adder(number.InterestingNumber.value, date),
-  source: InterestingNumber(unit, number),
-};
-
-let seconds = timeUnit("seconds", DateFns.addSeconds);
-
-let minutes = timeUnit("minutes", DateFns.addMinutes);
-
-let hours = timeUnit("hours", DateFns.addHours);
-
-let days = timeUnit("days", DateFns.addDays);
-
-let weeks = timeUnit("weeks", DateFns.addWeeks);
-
-let months = timeUnit("months", DateFns.addMonths);
-
-let years = timeUnit("years", DateFns.addYears);
-
-let calculators = [seconds, minutes, hours, days, weeks, months, years];
 
 let d = (year, month, day) =>
   Js.Date.makeWithYMD(
@@ -44,7 +16,6 @@ let d = (year, month, day) =>
   );
 
 let achievements = [
-  /* {name: "", achievement: "", birthday: d(), date: d()}, */
   {
     name: "Albert Einstein",
     achievement: "he published his famous E=mc^2 equation",

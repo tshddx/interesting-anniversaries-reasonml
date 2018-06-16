@@ -2,36 +2,15 @@ open Iterator;
 
 let generate = birthday => {
   let maxDate = DateFns.addYears(150.0, birthday);
-  let generators = InterestingNumber.generators |> fromList;
-  let calculators = Anniversary.calculators |> fromList;
-  let pairs = product(generators, calculators);
-  let iterator =
-    pairs
-    |> map(((generator, calculator)) =>
-         generator()
-         |> map(number => calculator(birthday, number))
-         |> takeWhile((ann: Anniversary.t) =>
-              ann.date |> DateFns.isBefore(maxDate)
-            )
-         |> toList
+  let interestingNumbers =
+    Anniversary.interestingNumbers(birthday, maxDate) |> List.concat;
+  let achievements = Anniversary.achievements(birthday, maxDate);
+  let anniversaries =
+    List.concat([interestingNumbers, achievements])
+    |> List.sort((a: Anniversary.t, b: Anniversary.t) =>
+         compare(DateFns.getTime(a.date), DateFns.getTime(b.date))
        );
-  let lists = iterator |> toList;
-  let anniversaries = List.concat(lists);
-  let achievements =
-    Anniversary.achievements
-    |> List.map((achievement: Anniversary.achievement) => {
-         let difference =
-           DateFns.differenceInCalendarDays(
-             achievement.date,
-             achievement.birthday,
-           );
-         let date = DateFns.addDays(difference, birthday);
-         Anniversary.{date, source: Achievement(achievement)};
-       });
-  List.append(anniversaries, achievements)
-  |> List.sort((a: Anniversary.t, b: Anniversary.t) =>
-       compare(DateFns.getTime(a.date), DateFns.getTime(b.date))
-     );
+  anniversaries;
 };
 
 type anniversaryList = {
