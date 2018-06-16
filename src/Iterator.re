@@ -114,9 +114,6 @@ let rec toList = iterator =>
   switch (iterator()) {
   | Item(item, next) => [item, ...toList(next)]
   | StopIteration => []
-  /* let items = ref([]);
-     iterator |> each(item => items := [item, ...items^]);
-     items^; */
   };
 
 let rec fromList = (items, ()) =>
