@@ -6,6 +6,7 @@ let make = (~anniversary: Anniversary.t, ~isPast: bool, _children) => {
     switch (anniversary.source) {
     | InterestingNumber(unit, number) =>
       <span>
+        (ReasonReact.string({js|🔢|js}))
         (ReasonReact.string("On "))
         (ReasonReact.string(anniversary.date |> Utils.df))
         (ReasonReact.string(isPast ? " you were " : " you will be "))
@@ -24,6 +25,7 @@ let make = (~anniversary: Anniversary.t, ~isPast: bool, _children) => {
       </span>
     | Achievement(achievement) =>
       <span>
+        (ReasonReact.string({js|🏆|js}))
         (ReasonReact.string({| On |}))
         (ReasonReact.string(anniversary.date |> Utils.df))
         (
