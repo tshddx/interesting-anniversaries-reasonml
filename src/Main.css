@@ -1,6 +1,6 @@
 html {
   font-size: 20px;
-  color: #222;
+  color: #333;
 }
 
 body {
@@ -20,6 +20,11 @@ a {
   color: #135abe;
   text-decoration: none;
   font-weight: 500;
+}
+
+b {
+  font-weight: 500;
+  color: black;
 }
 
 #main {
@@ -105,7 +110,9 @@ select {
 }
 
 .AnniversaryList {
-  margin-left: -1em;
+  padding: 0;
+  list-style: none;
+  margin-left: -0.15em;
 }
 
 .Menu {
@@ -114,4 +121,17 @@ select {
 
 li {
   margin-bottom: 0.5em;
+}
+
+.AnniversaryItem__emoji {
+  /* font-size: 120%; */
+  margin-right: 0.15em;
+  display: inline-block;
+  width: 1.5em;
+  text-align: center;
+  position: relative;
+  top: 0.06em;
+}
+
+.AnniversaryItem__sentence {
 }

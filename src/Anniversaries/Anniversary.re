@@ -1,6 +1,7 @@
 type source =
   | InterestingNumber(string, InterestingNumber.t)
-  | Achievement(Achievement.t);
+  | Achievement(Achievement.t)
+  | CelestialDuration(CelestialDuration.t);
 
 type t = {
   date: Js.Date.t,
@@ -18,14 +19,15 @@ let interestingNumbers = (birthday, maxDate) => {
   let numberGenerators = InterestingNumber.numberGenerators |> fromList;
   let dateAdders =
     InterestingNumber.dateAdders |> List.map(makeDateAdder) |> fromList;
-  let pairs = product(numberGenerators, dateAdders);
+  let pairs = InterestingNumber.pairs;
   pairs
-  |> map(((generator, addToDate)) =>
+  |> map(((generator, dateAdder)) => {
+       let addToDate = dateAdder |> makeDateAdder;
        generator()
        |> map(number => addToDate(birthday, number))
        |> takeWhile(ann => ann.date |> DateFns.isBefore(maxDate))
-       |> toList
-     )
+       |> toList;
+     })
   |> toList;
 };
 
@@ -40,3 +42,14 @@ let achievements = (birthday, _maxDate) =>
        let date = DateFns.addDays(difference, birthday);
        {date, source: Achievement(achievement)};
      });
+
+let celestialDurations = (birthday, maxDate) =>
+  CelestialDuration.celestialDurations(birthday, maxDate)
+  |> List.map((celestialDuration: CelestialDuration.t) =>
+       (
+         {
+           date: celestialDuration.date,
+           source: CelestialDuration(celestialDuration),
+         }: t
+       )
+     );

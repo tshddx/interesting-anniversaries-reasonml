@@ -18,7 +18,7 @@ let repeatedDigits = () =>
   powersOfTen(3, ())
   |> map(pow => (pow -. 1.0) /. 9.0)
   |> mapIter(all_ones =>
-       range(1, 9) |> map(digit => float_of_int(digit) *. all_ones)
+       range(1, 8) |> map(digit => float_of_int(digit) *. all_ones)
      );
 
 let countingUp = () =>
@@ -27,12 +27,21 @@ let countingUp = () =>
 let makeNumberGenerator = (category, generator, ()) =>
   generator() |> map(f => {category, value: f, description: None});
 
-let numberGenerators: list(generator(t)) = [
+let numberGenerators = [
   powersOfTen(0) |> makeNumberGenerator("powersOfTen"),
   factorsOfTen |> makeNumberGenerator("factorsOfTen"),
   repeatedDigits |> makeNumberGenerator("repeatedDigits"),
   countingUp |> makeNumberGenerator("countingUp"),
 ];
+
+let everyYear =
+  (
+    () =>
+      range(1, 100)
+      |> filter(i => i <= 30 || i mod 10 == 0)
+      |> map(float_of_int)
+  )
+  |> makeNumberGenerator("everyYear");
 
 /* These are simple calculators that add units of time to a date. */
 let seconds = ("seconds", DateFns.addSeconds);
@@ -49,4 +58,8 @@ let months = ("months", DateFns.addMonths);
 
 let years = ("years", DateFns.addYears);
 
-let dateAdders = [seconds, minutes, hours, days, weeks, months, years];
+let dateAdders = [seconds, minutes, hours, days, weeks, months];
+
+let pairs =
+  product(numberGenerators |> fromList, dateAdders |> fromList)
+  |> andThen(() => just((everyYear, years)));
