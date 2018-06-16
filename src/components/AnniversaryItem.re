@@ -56,7 +56,7 @@ let make = (~anniversary: Anniversary.t, ~isPast: bool, _children) => {
     | CelestialDuration(celestialDuration) =>
       <span>
         <span className="AnniversaryItem__emoji">
-          (ReasonReact.string({js|🌌|js}))
+          (ReasonReact.string({js|☄️|js}))
         </span>
         <span className="AnniversaryItem__sentence">
           (ReasonReact.string({|On |}))
