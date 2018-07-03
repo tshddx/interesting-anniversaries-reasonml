@@ -12,9 +12,6 @@ let make =
   ...component,
   render: self => {
     let iterator = anniversaries |> Iterator.fromArray;
-    /* |> Iterator.firstChunk((a, b) =>
-         DateFns.isSameDay(a.Anniversary.date, b.Anniversary.date)
-       ); */
     <div className="AnniversaryList RowFull">
       (
         iterator
@@ -27,23 +24,15 @@ let make =
                  isToday=(DateFns.isToday(ann.date))
                  showShare=(
                    switch (sharing) {
-                   | Some(sharing) =>
-                     let eq2 = ann == sharing;
-                     let eq3 = ann === sharing;
-                     if (eq2) {
-                       Js.log4("compare sharing", eq3, ann, sharing);
-                     };
-                     ann === sharing;
+                   | Some(sharing) => ann === sharing
                    | None => false
                    }
                  )
                  setShowShare=(
                    showShare =>
                      if (showShare) {
-                       Js.log("set sharing");
                        setSharing(ann);
                      } else {
-                       Js.log("clear sharing");
                        clearSharing();
                      }
                  )

@@ -7,6 +7,7 @@ let generate = birthday => {
   let achievements = Anniversary.achievements(birthday, maxDate);
   let celestialDurations = Anniversary.celestialDurations(birthday, maxDate);
   let all = ref([]);
+  /* Todo: make the types of anniversaries shows customizable. */
   if (true) {
     all := List.append(all^, interestingNumbers);
   };

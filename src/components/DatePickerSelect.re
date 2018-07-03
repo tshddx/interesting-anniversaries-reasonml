@@ -6,12 +6,6 @@ let getValue = event => ReactDOMRe.domElementToObj(
                           ReactEventRe.Form.target(event),
                         )##value;
 
-let getInt = event =>
-  switch (getValue(event)) {
-  | "" => None
-  | v => Some(int_of_string(v))
-  };
-
 let make =
     (
       ~options: array((string, string)),

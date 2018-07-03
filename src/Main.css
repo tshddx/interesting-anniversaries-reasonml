@@ -27,9 +27,6 @@ b {
   color: black;
 }
 
-h1 {
-}
-
 h2 {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -74,10 +71,6 @@ h2 {
   background-color: #fb7bce;
   background-image: linear-gradient(50deg, #fb7bce 11%, #efe93e 88%);
   flex-shrink: 0;
-  /* font-size: 85%; */
-}
-
-select {
 }
 
 .Button {
@@ -133,9 +126,6 @@ select {
   background-color: #f5f8e3;
 }
 
-.Anniversaries {
-}
-
 .AnniversaryList {
   padding: 0;
   list-style: none;
@@ -151,7 +141,8 @@ li {
   margin-bottom: 0.6em;
 }
 
-.AnniversaryItem__sentence {
+hr {
+  margin-bottom: 20px;
 }
 
 .MaxWidth {

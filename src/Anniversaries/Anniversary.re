@@ -20,9 +20,6 @@ let makeDateAdder = ((singularUnit, pluralUnit, adder), date, number) => {
 };
 
 let interestingNumbers = (birthday, maxDate) => {
-  let numberGenerators = InterestingNumber.numberGenerators |> fromList;
-  let dateAdders =
-    InterestingNumber.dateAdders |> List.map(makeDateAdder) |> fromList;
   let pairs = InterestingNumber.pairs;
   pairs
   |> map(((generator, dateAdder)) => {

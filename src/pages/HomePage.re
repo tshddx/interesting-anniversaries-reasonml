@@ -27,7 +27,7 @@ let getAnniversaries = (birthday, beforeNow) =>
        AnniversaryGenerator.get(birthday, Js.Date.make(), beforeNow)
      );
 
-let make = (~greeting, _children) => {
+let make = _children => {
   ...component,
   initialState: () => {
     birthday: None,

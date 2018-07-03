@@ -4,9 +4,9 @@ type state = {
   day: option(int),
 };
 
+/* let initial_state = {year: Some(1995), month: Some(1), day: Some(1)}; */
+/* let initial_state = {year: Some(1987), month: Some(7), day: Some(5)}; */
 let initial_state = {year: None, month: None, day: None};
-
-let initial_state = {year: Some(2016), month: Some(5), day: Some(22)};
 
 type action =
   | SetYear(option(int))
@@ -54,7 +54,6 @@ let reducer = (action, state) =>
   | SetYear(year) => ReasonReact.Update({...state, year} |> constrainDay)
   | SetMonth(month) => ReasonReact.Update({...state, month} |> constrainDay)
   | SetDay(day) => ReasonReact.Update({...state, day} |> constrainDay)
-  /* | SetDay(day) => ReasonReact.NoUpdate */
   };
 
 let getValue = event => ReactDOMRe.domElementToObj(
@@ -77,7 +76,6 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
   didMount: self => onDateChange(getDate(self.state)),
   didUpdate: ({newSelf}) => onDateChange(getDate(newSelf.state)),
   render: self => {
-    /* onDateChange(getDate(self.state)); */
     let {year, month, day} = self.state;
     let daysInMonth = daysInMonth(self.state);
     let thisYear = Js.Date.make() |> DateFns.getYear |> int_of_float;
@@ -147,23 +145,5 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
         />
       </div>
     </div>;
-    /* <select
-         className="DatePicker__day DatePicker__select"
-         value=dayValue
-         disabled=(
-           switch (daysInMonth) {
-           | Some(_) => false
-           | None => true
-           }
-         )
-         onChange=(event => self.send(SetDay(getInt(event))))>
-         (
-           dayOptions
-           |> Array.map(i =>
-                <option key=i value=i> (ReasonReact.string(i)) </option>
-              )
-           |> ReasonReact.array
-         )
-       </select> */
   },
 };

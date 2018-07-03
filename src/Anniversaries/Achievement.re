@@ -1,5 +1,5 @@
-/* birthday is the birthday of the achiever, and date is the date that person
-   achieved the achievement. */
+/* `birthday` is the birthday of the achiever, and `date` is the date that
+   person achieved the achievement. */
 type t = {
   name: string,
   achievement: string,
