@@ -22,7 +22,8 @@ type anniversaryList = {
 
 let get = (birthday, now, beforeNow) => {
   let anniversaries = generate(birthday);
-  let isPast = (ann: Anniversary.t) => ann.date |> DateFns.isBefore(now);
+  let isPast = (ann: Anniversary.t) =>
+    ann.date |> DateFns.isBefore(now |> DateFns.startOfDay);
   let (past, future) = anniversaries |> List.partition(isPast);
   let past = past |> Array.of_list;
   let future = future |> Array.of_list;
