@@ -2,16 +2,33 @@ let component = ReasonReact.statelessComponent("AnniversaryList");
 
 let make = (~anniversaries: array(Anniversary.t), ~isPast: bool, _children) => {
   ...component,
-  render: _self =>
-    <ul className="AnniversaryList">
+  render: _self => {
+    let iterator =
+      anniversaries
+      |> Iterator.fromArray
+      |> Iterator.firstChunk((a, b) =>
+           DateFns.isSameDay(a.Anniversary.date, b.Anniversary.date)
+         );
+    <div className="AnniversaryList">
       (
-        anniversaries
+        iterator
+        |> Iterator.toArray
         |> Array.mapi((index, ann: Anniversary.t) =>
-             <li key=(string_of_int(index))>
-               <AnniversaryItem anniversary=ann isPast />
-             </li>
+             <div key=(string_of_int(index))>
+               <AnniversaryItem
+                 anniversary=ann
+                 isPast
+                 isToday=(DateFns.isToday(ann.date))
+               />
+             </div>
            )
         |> ReasonReact.array
       )
-    </ul>,
+    </div>;
+  },
 };
+
+type foo('state) =
+  | Foo('state)
+  | Bar
+  | Baz;

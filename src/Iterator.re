@@ -91,6 +91,43 @@ let cons = size => ();
 
 let slice = size => ();
 
+let firstChunk = (isEqual, iterator) =>
+  switch (iterator()) {
+  | Item(item, next) =>
+    let firstItem = item;
+    just(firstItem)
+    |> andThen(() => next |> takeWhile(item => isEqual(firstItem, item)));
+  | StopIteration => empty
+  };
+
+let firstChunkAndRest = (isEqual, iterator) =>
+  switch (iterator()) {
+  | Item(firstItem, next) =>
+    let firstChunk =
+      just(firstItem)
+      |> andThen(() => next |> takeWhile(item => isEqual(firstItem, item)));
+    firstChunk;
+  | StopIteration => empty
+  };
+
+let firstChunkBy = (makeKey, iterator) =>
+  firstChunk((a, b) => makeKey(a) == makeKey(b));
+
+let chunk = (isEqual, iterator) => {
+  let rec helper = (currentChunk, previousItem, iterator) =>
+    switch (iterator()) {
+    | Item(item, next) =>
+      isEqual(previousItem, item) ?
+        helper(currentChunk |> andThen(() => just(item)), item, next) :
+        currentChunk |> andThen(() => helper(empty, item, next))
+    | StopIteration => currentChunk
+    };
+  switch (iterator()) {
+  | Item(item, next) => helper(empty, item, next)
+  | StopIteration => empty
+  };
+};
+
 /* itertools that take and return iterators of specific types */
 /* */
 let count = start => {

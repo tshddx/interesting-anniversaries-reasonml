@@ -7,7 +7,7 @@ let make = (~name, _children) => {
       <p>
         (
           ReasonReact.string(
-            "Interesting Anniversaries is a recreational coding exercise by ",
+            "Interesting Anniversaries is a recreational coding exercise from ",
           )
         )
         <a href="https://twitter.com/baddox">
@@ -16,7 +16,7 @@ let make = (~name, _children) => {
         (ReasonReact.string("."))
       </p>
       <p>
-        (ReasonReact.string("The source code is on "))
+        (ReasonReact.string("The source code and more information is on "))
         <a href="https://github.com/baddox/interesting-anniversaries-reasonml">
           (ReasonReact.string("GitHub"))
         </a>

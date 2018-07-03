@@ -40,37 +40,45 @@ let make = _children => {
   render: self =>
     <div className="Main">
       <div className="Row Header">
-        <h1> (ReasonReact.string("Interesting Anniversaries")) </h1>
+        <div className="MaxWidth">
+          <h1> (ReasonReact.string("Interesting Anniversaries")) </h1>
+        </div>
       </div>
       <div className="Row Main__routeHolder">
-        (
-          switch (self.state.route) {
-          | HomeRoute => <HomePage greeting="Hello!" />
-          | AboutRoute => <AboutPage name="My name is Thomas Shaddox" />
-          | NoRoute => <NotFoundPage />
-          }
-        )
+        <div className="MaxWidth">
+          (
+            switch (self.state.route) {
+            | HomeRoute => <HomePage greeting="Hello!" />
+            | AboutRoute => <AboutPage name="My name is Thomas Shaddox" />
+            | NoRoute => <NotFoundPage />
+            }
+          )
+        </div>
       </div>
       <div className="Row Footer">
-        <p>
-          (
-            ReasonReact.string(
-              "Interesting Anniversaries is a recreational coding exercise by ",
+        <div className="MaxWidth">
+          <p>
+            (
+              ReasonReact.string(
+                "Interesting Anniversaries is a recreational coding exercise by ",
+              )
             )
-          )
-          <a href="https://twitter.com/baddox">
-            (ReasonReact.string("Thomas Shaddox"))
-          </a>
-          (ReasonReact.string("."))
-        </p>
-        <p>
-          (ReasonReact.string("The source code is on "))
-          <a
-            href="https://github.com/baddox/interesting-anniversaries-reasonml">
-            (ReasonReact.string("GitHub"))
-          </a>
-          (ReasonReact.string("."))
-        </p>
+            <a href="https://twitter.com/baddox">
+              (ReasonReact.string("Thomas Shaddox"))
+            </a>
+            (ReasonReact.string("."))
+          </p>
+          <p>
+            (
+              ReasonReact.string("The source code and more information is on ")
+            )
+            <a
+              href="https://github.com/baddox/interesting-anniversaries-reasonml">
+              (ReasonReact.string("GitHub"))
+            </a>
+            (ReasonReact.string("."))
+          </p>
+        </div>
       </div>
     </div>,
 };

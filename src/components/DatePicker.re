@@ -6,7 +6,7 @@ type state = {
 
 let initial_state = {year: None, month: None, day: None};
 
-/* let initial_state = {year: Some(1987), month: Some(7), day: Some(5)}; */
+/* let initial_state = {year: Some(2018), month: Some(5), day: Some(22)}; */
 type action =
   | SetYear(option(int))
   | SetMonth(option(int))
@@ -29,17 +29,22 @@ let getDate = ({year, month, day}) =>
 let daysInMonth = ({year, month}) =>
   switch (year, month) {
   | (Some(y), Some(m)) =>
-    Some(
-      Js.Date.makeWithYM(float_of_int(y), float_of_int(m), ())
-      |> DateFns.getDaysInMonth
-      |> int_of_float,
-    )
-  | _ => None
+    Js.Date.makeWithYM(float_of_int(y), float_of_int(m), ())
+    |> DateFns.getDaysInMonth
+    |> int_of_float
+  | (None, Some(m)) =>
+    Js.Date.makeWithYM(2001.0, float_of_int(m), ())
+    |> DateFns.getDaysInMonth
+    |> int_of_float
+  | _ => 31
   };
 
 let constrainDay = state =>
-  switch (daysInMonth(state), state.day) {
-  | (Some(days), Some(day)) => {...state, day: Some(min(days, day))}
+  /* Js.log(daysInMonth(state)); */
+  switch (state.day) {
+  | Some(day') =>
+    Js.log2("some day", day');
+    {...state, day: Some(min(daysInMonth(state), day'))};
   | _ => state
   };
 
@@ -48,6 +53,7 @@ let reducer = (action, state) =>
   | SetYear(year) => ReasonReact.Update({...state, year} |> constrainDay)
   | SetMonth(month) => ReasonReact.Update({...state, month} |> constrainDay)
   | SetDay(day) => ReasonReact.Update({...state, day} |> constrainDay)
+  /* | SetDay(day) => ReasonReact.NoUpdate */
   };
 
 let getValue = event => ReactDOMRe.domElementToObj(
@@ -72,15 +78,17 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
   render: self => {
     /* onDateChange(getDate(self.state)); */
     let {year, month, day} = self.state;
-    let days_in_month = daysInMonth(self.state);
+    let daysInMonth = daysInMonth(self.state);
     let thisYear = Js.Date.make() |> DateFns.getYear |> int_of_float;
-    let years =
-      Array.append(
-        [|""|],
-        Array.init(200, i => string_of_int(thisYear - i)),
+    let yearOptions =
+      Array.init(
+        200,
+        i => {
+          let s = string_of_int(thisYear - i);
+          (s, s);
+        },
       );
-    let months = [|
-      ("", ""),
+    let monthOptions = [|
       ("0", "January"),
       ("1", "February"),
       ("2", "March"),
@@ -94,89 +102,67 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
       ("10", "November"),
       ("11", "December"),
     |];
-    let days =
-      switch (days_in_month) {
-      | Some(dayCount) =>
-        Array.append(
-          [|""|],
-          Array.init(dayCount, i => string_of_int(i + 1)),
-        )
-      | _ => [|""|]
-      };
-    let year_value =
-      switch (year) {
-      | Some(year) => string_of_int(year)
-      | None => ""
-      };
-    let month_value =
-      switch (month) {
-      | Some(month) => string_of_int(month)
-      | None => ""
-      };
-    let day_value =
-      switch (day) {
-      | Some(day) => string_of_int(day)
-      | None => ""
-      };
+    let dayOptions =
+      Array.init(
+        daysInMonth,
+        i => {
+          let s = string_of_int(i + 1);
+          (s, s);
+        },
+      );
+    let yearValue = year |> Utils.optionMap(string_of_int);
+    let monthValue = month |> Utils.optionMap(string_of_int);
+    let dayValue = day |> Utils.optionMap(string_of_int);
     <div className="DatePicker">
       <div className="DatePicker__field">
-        (ReasonReact.string("Year:"))
-        <br />
-        <select
-          className="DatePicker__year DatePicker__select"
-          value=year_value
-          onChange=(event => self.send(SetYear(getInt(event))))>
-          (
-            years
-            |> Array.map(year =>
-                 <option key=year value=year>
-                   (ReasonReact.string(year))
-                 </option>
-               )
-            |> ReasonReact.array
+        <DatePickerSelect
+          className="DatePicker__month"
+          options=monthOptions
+          value=monthValue
+          defaultLabel="Month"
+          onChange=(
+            value => self.send(SetMonth(Some(int_of_string(value))))
           )
-        </select>
+        />
       </div>
       <div className="DatePicker__field">
-        (ReasonReact.string("Month:"))
-        <br />
-        <select
-          className="DatePicker__month DatePicker__select"
-          value=month_value
-          onChange=(event => self.send(SetMonth(getInt(event))))>
-          (
-            months
-            |> Array.map(((value, month)) =>
-                 <option key=value value>
-                   (ReasonReact.string(month))
-                 </option>
-               )
-            |> ReasonReact.array
-          )
-        </select>
+        <DatePickerSelect
+          className="DatePicker__day"
+          options=dayOptions
+          value=dayValue
+          defaultLabel="Day"
+          onChange=(value => self.send(SetDay(Some(int_of_string(value)))))
+        />
       </div>
       <div className="DatePicker__field">
-        (ReasonReact.string("Day:"))
-        <br />
-        <select
-          className="DatePicker__day DatePicker__select"
-          value=day_value
-          disabled=(
-            switch (days_in_month) {
-            | Some(_) => false
-            | None => true
-            }
+        <DatePickerSelect
+          className="DatePicker__year"
+          options=yearOptions
+          value=yearValue
+          defaultLabel="Year"
+          onChange=(
+            value => self.send(SetYear(Some(int_of_string(value))))
           )
-          onChange=(event => self.send(SetDay(getInt(event))))>
-          (
-            days
-            |> Array.map(i =>
-                 <option key=i value=i> (ReasonReact.string(i)) </option>
-               )
-            |> ReasonReact.array
-          )
-        </select>
+        />
       </div>
     </div>;
+    /* <select
+         className="DatePicker__day DatePicker__select"
+         value=dayValue
+         disabled=(
+           switch (daysInMonth) {
+           | Some(_) => false
+           | None => true
+           }
+         )
+         onChange=(event => self.send(SetDay(getInt(event))))>
+         (
+           dayOptions
+           |> Array.map(i =>
+                <option key=i value=i> (ReasonReact.string(i)) </option>
+              )
+           |> ReasonReact.array
+         )
+       </select> */
   },
 };

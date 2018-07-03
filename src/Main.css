@@ -120,18 +120,38 @@ select {
 }
 
 li {
+  margin-bottom: 0.6em;
+}
+
+.AnniversaryItem__sentence {
+}
+
+.MaxWidth {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.AnniversaryItem {
+  display: flex;
   margin-bottom: 0.5em;
 }
 
 .AnniversaryItem__emoji {
   /* font-size: 120%; */
-  margin-right: 0.15em;
+  margin-right: 0.2em;
   display: inline-block;
-  width: 1.5em;
+  flex-grow: 1.5em;
   text-align: center;
   position: relative;
   top: 0.06em;
 }
 
-.AnniversaryItem__sentence {
+.AnniversaryItem__description {
+  flex-grow: 1;
+}
+
+.AnniversaryItem__share {
+  flex-grow: 2em;
+  background-color: blue;
 }
