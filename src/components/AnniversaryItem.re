@@ -29,30 +29,26 @@ let make =
           <Description anniversary isPast isToday />
         </div>
       </div>
-      (
-        showShare ?
-          {
-            let html = {|
+      {
+        let html = {|
               <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
               |};
-            let text = Description.text(anniversary, isPast, isToday);
-            let url = "http://interesting-anniversaries.now.sh";
-            <div
-              className=(
-                "AnniversaryItem__share "
-                ++ (showShare ? "AnniversaryItem__share--shown" : "")
-              )>
-              <TwitterButton text url onClick=toggleShowShare />
-              <FacebookButton text url onClick=toggleShowShare />
-              <button
-                className="Button AnniversaryItem__shareButton AnniversaryItem__shareButton--cancel"
-                onClick=toggleShowShare>
-                (ReasonReact.string("Cancel"))
-              </button>
-            </div>;
-          } :
-          ReasonReact.null
-      )
+        let text = Description.text(anniversary, isPast, isToday);
+        let url = "http://interesting-anniversaries.now.sh";
+        <div
+          className=(
+            "AnniversaryItem__share "
+            ++ (showShare ? "AnniversaryItem__share--shown" : "")
+          )>
+          <TwitterButton text url onClick=toggleShowShare />
+          <FacebookButton text url onClick=toggleShowShare />
+          <button
+            className="Button AnniversaryItem__shareButton AnniversaryItem__shareButton--cancel"
+            onClick=toggleShowShare>
+            (ReasonReact.string("Close"))
+          </button>
+        </div>;
+      }
     </div>;
   },
 };
