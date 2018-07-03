@@ -41,7 +41,7 @@ let make = (~greeting, _children) => {
           (
             Array.length(past) > 0 ?
               <button
-                className="PreviousButton"
+                className="Button PreviousButton"
                 onClick=(_e => self.send(ShowMore))>
                 (ReasonReact.string("See previous anniversaries"))
               </button> :
