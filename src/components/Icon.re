@@ -9,17 +9,28 @@ let make = (~anniversary: Anniversary.t, _children) => {
         let emoji =
           number.category == "everyYear" ? {js|🎂|js} : {js|🕒|js};
         ReasonReact.string(emoji);
-      | Achievement({icon}) => icon
+      | Achievement({emoji}) => ReasonReact.string(emoji)
       | CelestialDuration(_) => ReasonReact.string({js|☄️|js})
       };
     let extraClassName =
       switch (anniversary.source) {
       | InterestingNumber(_, number) =>
         number.category == "everyYear" ? "" : "Icon--default"
-      | Achievement({icon}) => ""
+      | Achievement(_a) => ""
       | CelestialDuration(_) => ""
       };
     let className = "Icon " ++ extraClassName;
     <div className> icon </div>;
   },
+};
+
+let text = (anniversary: Anniversary.t) => {
+  let icon =
+    switch (anniversary.source) {
+    | InterestingNumber(_, number) =>
+      number.category == "everyYear" ? {js|🎂|js} : {js|🕒|js}
+    | Achievement({emoji}) => emoji
+    | CelestialDuration(_) => {js|☄️|js}
+    };
+  ();
 };
