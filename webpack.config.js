@@ -14,7 +14,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /index\.html$/,
+        test: /\.html$|\.png$/,
         use: [
           {
             loader: "file-loader",

@@ -1,5 +1,7 @@
 [%bs.raw {|require('../../../src/Main.css')|}];
 
+[%bs.raw {|require('../../../src/favicon.png')|}];
+
 type route =
   | HomeRoute
   | AboutRoute
