@@ -7,8 +7,9 @@ let make = (~anniversary: Anniversary.t, ~isPast, ~isToday, _children) => {
   render: _self => {
     let date = anniversary.date |> Utils.df;
     let youWere = isPast ? " you were " : " you will be ";
+    let youTurn = isPast ? " you turned " : " you will turn ";
     let todayYouAre = isToday ? "Today you are" : {j|On $date $youWere |j};
-    let todayYouTurn = isToday ? "Today you turn" : {j|On $date $youWere |j};
+    let todayYouTurn = isToday ? "Today you turn" : {j|On $date $youTurn |j};
     let description =
       switch (anniversary.source) {
       | InterestingNumber(unit, number) =>
