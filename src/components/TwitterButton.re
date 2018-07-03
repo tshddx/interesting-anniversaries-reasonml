@@ -1,11 +1,11 @@
 let component = ReasonReact.statelessComponent("TwitterButton");
 
-let make = (~onClick, _children) => {
+let make = (~text, ~url, ~onClick, _children) => {
   ...component,
   render: _self => {
-    let url = "https://twitter.com/intent/tweet?text=FOO&url=http://interesting-anniversaries.now.sh";
+    let href = {j|https://twitter.com/intent/tweet?text=$(text)&url=$(url)|j};
     <a
-      href=url
+      href
       className="Button AnniversaryItem__shareButton AnniversaryItem__shareButton--twitter"
       target="_blank"
       onClick>

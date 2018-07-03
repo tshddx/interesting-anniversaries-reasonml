@@ -12,7 +12,7 @@ let make =
   ...component,
   render: _self => {
     let isToday = DateFns.isToday(anniversary.date);
-    let date = anniversary.date |> Utils.df;
+    /* let date = anniversary.date |> Utils.df; */
     let toggleShowShare = _e => {
       Js.log("toggle");
       setShowShare(! showShare);
@@ -35,13 +35,15 @@ let make =
             let html = {|
               <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
               |};
+            let text = Description.text(anniversary, isPast, isToday);
+            let url = "http://interesting-anniversaries.now.sh";
             <div
               className=(
                 "AnniversaryItem__share "
                 ++ (showShare ? "AnniversaryItem__share--shown" : "")
               )>
-              <TwitterButton onClick=toggleShowShare />
-              <FacebookButton onClick=toggleShowShare />
+              <TwitterButton text url onClick=toggleShowShare />
+              <FacebookButton text url onClick=toggleShowShare />
               <button
                 className="Button AnniversaryItem__shareButton AnniversaryItem__shareButton--cancel"
                 onClick=toggleShowShare>
