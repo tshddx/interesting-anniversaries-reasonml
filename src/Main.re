@@ -22,6 +22,8 @@ let reducer = (action, _state) =>
   | ChangeRoute(route) => ReasonReact.Update({route: route})
   };
 
+let s = ReasonReact.string;
+
 let component = ReasonReact.reducerComponent("Main");
 
 let make = _children => {
@@ -41,7 +43,7 @@ let make = _children => {
     <div className="Main">
       <div className="Row Header">
         <div className="MaxWidth">
-          <h1> (ReasonReact.string("Interesting Anniversaries")) </h1>
+          <h1> (s("Interesting Anniversaries")) </h1>
         </div>
       </div>
       <div className="Row Main__routeHolder">
@@ -59,24 +61,19 @@ let make = _children => {
         <div className="MaxWidth">
           <p>
             (
-              ReasonReact.string(
+              s(
                 "Interesting Anniversaries is a recreational coding exercise by ",
               )
             )
-            <a href="https://twitter.com/baddox">
-              (ReasonReact.string("Thomas Shaddox"))
-            </a>
-            (ReasonReact.string("."))
-          </p>
-          <p>
-            (
-              ReasonReact.string("The source code and more information is on ")
-            )
+            <a href="https://twitter.com/baddox"> (s("Thomas Shaddox")) </a>
+            (s(". "))
+            (s("This site doesn't transmit or store any data. "))
+            (s("The source code and more information is on "))
             <a
               href="https://github.com/baddox/interesting-anniversaries-reasonml">
-              (ReasonReact.string("GitHub"))
+              (s("GitHub"))
             </a>
-            (ReasonReact.string("."))
+            (s("."))
           </p>
         </div>
       </div>

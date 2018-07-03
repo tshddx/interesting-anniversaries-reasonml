@@ -74,13 +74,10 @@ h2 {
   background-color: #fb7bce;
   background-image: linear-gradient(50deg, #fb7bce 11%, #efe93e 88%);
   flex-shrink: 0;
+  /* font-size: 85%; */
 }
 
 select {
-  height: 40px;
-  font-size: 20px;
-  width: 200px;
-  border-radius: 8px;
 }
 
 .Button {
@@ -89,7 +86,7 @@ select {
   font-weight: 400;
   padding-left: 15px;
   padding-right: 15px;
-  border-radius: 6px;
+  border-radius: 5px;
   border: 0;
   cursor: pointer;
   background-color: white;
@@ -115,7 +112,13 @@ select {
 }
 
 .DatePicker__select {
-  border: 1px solid #99d6d4;
+  /* border: 1px solid #99d6d4; */
+  color: #333;
+  border: 0;
+  height: 40px;
+  font-size: 100%;
+  width: 200px;
+  border-radius: 5px;
 }
 
 .DatePicker__year {
