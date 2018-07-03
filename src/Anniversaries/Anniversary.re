@@ -10,9 +10,13 @@ type t = {
 
 open Iterator;
 
-let makeDateAdder = ((unit, adder), date, number) => {
+let makeDateAdder = ((singularUnit, pluralUnit, adder), date, number) => {
   date: adder(number.InterestingNumber.value, date),
-  source: InterestingNumber(unit, number),
+  source:
+    InterestingNumber(
+      Utils.pluralize(singularUnit, pluralUnit, number.value),
+      number,
+    ),
 };
 
 let interestingNumbers = (birthday, maxDate) => {

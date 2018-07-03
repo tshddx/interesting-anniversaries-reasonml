@@ -7,6 +7,8 @@ type action =
   | SetBirthday(option(Js.Date.t))
   | ShowMore;
 
+let showMore = 10;
+
 let component = ReasonReact.reducerComponent("HomePage");
 
 open Iterator;
@@ -16,10 +18,9 @@ let make = (~greeting, _children) => {
   initialState: () => {birthday: None, beforeNow: 0},
   reducer: (action, state) =>
     switch (action) {
-    | SetBirthday(birthday) =>
-      ReasonReact.Update({...state, birthday, beforeNow: 0})
+    | SetBirthday(birthday) => ReasonReact.Update({birthday, beforeNow: 0})
     | ShowMore =>
-      ReasonReact.Update({...state, beforeNow: state.beforeNow + 10})
+      ReasonReact.Update({...state, beforeNow: state.beforeNow + showMore})
     },
   render: self => {
     let now = Js.Date.make();

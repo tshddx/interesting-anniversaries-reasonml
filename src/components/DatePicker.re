@@ -6,7 +6,8 @@ type state = {
 
 let initial_state = {year: None, month: None, day: None};
 
-/* let initial_state = {year: Some(2018), month: Some(5), day: Some(22)}; */
+let initial_state = {year: Some(2016), month: Some(5), day: Some(22)};
+
 type action =
   | SetYear(option(int))
   | SetMonth(option(int))

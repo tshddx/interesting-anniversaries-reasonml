@@ -27,6 +27,11 @@ b {
   color: black;
 }
 
+h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 #main {
   padding-bottom: env(safe-area-inset-bottom);
   height: 100%;
@@ -39,7 +44,8 @@ b {
 }
 
 .Row {
-  padding: 1em;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .Header {
@@ -78,11 +84,11 @@ select {
 }
 
 .DatePicker {
-  margin-bottom: 2em;
+  margin-bottom: 20px;
 }
 
 .DatePicker__field {
-  margin-bottom: 0.5em;
+  margin-bottom: 10px;
 }
 
 .DatePicker__select {
@@ -112,7 +118,7 @@ select {
 .AnniversaryList {
   padding: 0;
   list-style: none;
-  margin-left: -0.15em;
+  /* margin-left: -0.15em; */
 }
 
 .Menu {
@@ -154,4 +160,8 @@ li {
 .AnniversaryItem__share {
   flex-grow: 2em;
   background-color: blue;
+}
+
+.PreviousButton {
+  margin-bottom: 20px;
 }

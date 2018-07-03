@@ -47,7 +47,17 @@ let make = (~anniversary: Anniversary.t, ~isPast, ~isToday, _children) => {
           (ReasonReact.string(date))
           (ReasonReact.string(isPast ? " you were " : " you will be "))
           (ReasonReact.string(string_of_int(celestialDuration.number)))
-          (ReasonReact.string(" years old in "))
+          (ReasonReact.string(" "))
+          (
+            ReasonReact.string(
+              Utils.pluralize(
+                "year",
+                "years",
+                float_of_int(celestialDuration.number),
+              ),
+            )
+          )
+          (ReasonReact.string(" old in "))
           <b> (ReasonReact.string(celestialDuration.name)) </b>
           (ReasonReact.string(" years!"))
           (ReasonReact.string("!"))

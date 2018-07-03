@@ -52,3 +52,10 @@ let optionDefault = (default, option) =>
   | Some(value) => value
   | None => default
   };
+
+let pluralize = (singular, plural, count) =>
+  if (count === 1.0) {
+    singular;
+  } else {
+    plural;
+  };

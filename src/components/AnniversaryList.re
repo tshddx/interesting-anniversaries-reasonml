@@ -3,12 +3,10 @@ let component = ReasonReact.statelessComponent("AnniversaryList");
 let make = (~anniversaries: array(Anniversary.t), ~isPast: bool, _children) => {
   ...component,
   render: _self => {
-    let iterator =
-      anniversaries
-      |> Iterator.fromArray
-      |> Iterator.firstChunk((a, b) =>
-           DateFns.isSameDay(a.Anniversary.date, b.Anniversary.date)
-         );
+    let iterator = anniversaries |> Iterator.fromArray;
+    /* |> Iterator.firstChunk((a, b) =>
+         DateFns.isSameDay(a.Anniversary.date, b.Anniversary.date)
+       ); */
     <div className="AnniversaryList">
       (
         iterator

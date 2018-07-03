@@ -44,19 +44,19 @@ let everyYear =
   |> makeNumberGenerator("everyYear");
 
 /* These are simple calculators that add units of time to a date. */
-let seconds = ("seconds", DateFns.addSeconds);
+let seconds = ("second", "seconds", DateFns.addSeconds);
 
-let minutes = ("minutes", DateFns.addMinutes);
+let minutes = ("minute", "minutes", DateFns.addMinutes);
 
-let hours = ("hours", DateFns.addHours);
+let hours = ("hour", "hours", DateFns.addHours);
 
-let days = ("days", DateFns.addDays);
+let days = ("day", "days", DateFns.addDays);
 
-let weeks = ("weeks", DateFns.addWeeks);
+let weeks = ("week", "weeks", DateFns.addWeeks);
 
-let months = ("months", DateFns.addMonths);
+let months = ("month", "months", DateFns.addMonths);
 
-let years = ("years", DateFns.addYears);
+let years = ("year", "years", DateFns.addYears);
 
 let dateAdders = [seconds, minutes, hours, days, weeks, months];
 
