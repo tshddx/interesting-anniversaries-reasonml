@@ -1,68 +1,55 @@
 let component = ReasonReact.statelessComponent("Description");
 
+let s = ReasonReact.string;
+
 let make = (~anniversary: Anniversary.t, ~isPast, ~isToday, _children) => {
   ...component,
   render: _self => {
     let date = anniversary.date |> Utils.df;
+    let youWere = isPast ? " you were " : " you will be ";
+    let todayYouAre = isToday ? "Today you are" : {j|On $date $youWere |j};
+    let todayYouTurn = isToday ? "Today you turn" : {j|On $date $youWere |j};
     let description =
       switch (anniversary.source) {
       | InterestingNumber(unit, number) =>
+        let n = CommaNumber.commaNumber(number.value);
+        let description =
+          switch (number.description) {
+          | Some(description) => {j|($description) |j}
+          | None => ""
+          };
         <span>
-          (ReasonReact.string("On "))
-          (ReasonReact.string(date))
-          (ReasonReact.string(isPast ? " you were " : " you will be "))
-          <b>
-            (ReasonReact.string(CommaNumber.commaNumber(number.value)))
-            (ReasonReact.string(" "))
-            (
-              ReasonReact.string(
-                switch (number.description) {
-                | Some(description) => {j|($description) |j}
-                | None => ""
-                },
-              )
-            )
-            (ReasonReact.string(unit))
-          </b>
-          (ReasonReact.string(" old!"))
-        </span>
+          (s({j|$todayYouTurn |j}))
+          <b> (s({j|$n $(description)$unit|j})) </b>
+          (s(" old!"))
+        </span>;
       | Achievement(achievement) =>
         <span>
-          (ReasonReact.string({|On |}))
-          (ReasonReact.string(date))
-          (
-            ReasonReact.string(
-              isPast ?
-                " you were the same age as " : " you will be the same age as ",
-            )
-          )
-          <b> (ReasonReact.string(achievement.name)) </b>
-          (ReasonReact.string(" when "))
-          (ReasonReact.string(achievement.achievement))
-          (ReasonReact.string("!"))
+          (s({j|$todayYouAre the same age as |j}))
+          <b> (s(achievement.name)) </b>
+          (s(" when "))
+          (s(achievement.achievement))
+          (s("!"))
         </span>
       | CelestialDuration(celestialDuration) =>
+        let n = string_of_int(celestialDuration.number);
+        let years =
+          Utils.pluralize(
+            "year",
+            "years",
+            float_of_int(celestialDuration.number),
+          );
         <span>
-          (ReasonReact.string({|On |}))
-          (ReasonReact.string(date))
-          (ReasonReact.string(isPast ? " you were " : " you will be "))
-          (ReasonReact.string(string_of_int(celestialDuration.number)))
-          (ReasonReact.string(" "))
-          (
-            ReasonReact.string(
-              Utils.pluralize(
-                "year",
-                "years",
-                float_of_int(celestialDuration.number),
-              ),
-            )
-          )
-          (ReasonReact.string(" old in "))
-          <b> (ReasonReact.string(celestialDuration.name)) </b>
-          (ReasonReact.string(" years!"))
-          (ReasonReact.string("!"))
-        </span>
+          (s({j|$todayYouTurn $n $years old in |j}))
+          <b> (s(celestialDuration.name)) </b>
+          (s(" years!"))
+        </span>;
       };
     description;
   },
+};
+
+let text = (anniversary, isPast, isToday) => {
+  let foo = 5;
+  foo;
 };
