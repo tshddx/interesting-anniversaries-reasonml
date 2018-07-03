@@ -6,12 +6,20 @@ let make = (~anniversary: Anniversary.t, _children) => {
     let icon =
       switch (anniversary.source) {
       | InterestingNumber(_, number) =>
-        number.category == "everyYear" ? {js|🎂|js} : {js|🔢|js}
-      | Achievement(_) => {js|🏆|js}
-      | CelestialDuration(_) => {js|☄️|js}
+        let emoji =
+          number.category == "everyYear" ? {js|🎂|js} : {js|🕒|js};
+        ReasonReact.string(emoji);
+      | Achievement({icon}) => icon
+      | CelestialDuration(_) => ReasonReact.string({js|☄️|js})
       };
-    <div className="AnniversaryItem__emoji">
-      (ReasonReact.string(icon))
-    </div>;
+    let extraClassName =
+      switch (anniversary.source) {
+      | InterestingNumber(_, number) =>
+        number.category == "everyYear" ? "" : "Icon--default"
+      | Achievement({icon}) => ""
+      | CelestialDuration(_) => ""
+      };
+    let className = "Icon " ++ extraClassName;
+    <div className> icon </div>;
   },
 };

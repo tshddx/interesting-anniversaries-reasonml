@@ -27,6 +27,9 @@ b {
   color: black;
 }
 
+h1 {
+}
+
 h2 {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -44,6 +47,7 @@ h2 {
 }
 
 .Row {
+  text-align: center;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -112,12 +116,12 @@ select {
 }
 
 .Anniversaries {
-  text-align: left;
 }
 
 .AnniversaryList {
   padding: 0;
   list-style: none;
+  text-align: left;
   /* margin-left: -0.15em; */
 }
 
@@ -140,17 +144,7 @@ li {
 
 .AnniversaryItem {
   display: flex;
-  margin-bottom: 0.5em;
-}
-
-.AnniversaryItem__emoji {
-  /* font-size: 120%; */
-  margin-right: 0.2em;
-  display: inline-block;
-  flex-grow: 1.5em;
-  text-align: center;
-  position: relative;
-  top: 0.06em;
+  margin-bottom: 20px;
 }
 
 .AnniversaryItem__description {
@@ -164,4 +158,22 @@ li {
 
 .PreviousButton {
   margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.Icon {
+  font-size: 150%;
+  min-width: 50px;
+  /* margin-right: 10px; */
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  top: -5px;
+  /* background-color: #ccc; */
+}
+
+.Icon--default {
+  font-size: 100%;
+  opacity: 0.5;
+  top: 0;
 }

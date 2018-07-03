@@ -7,6 +7,10 @@ type action =
   | SetBirthday(option(Js.Date.t))
   | ShowMore;
 
+let initialShowBeforeNow = 1000;
+
+let initialShowBeforeNow = 0;
+
 let showMore = 10;
 
 let component = ReasonReact.reducerComponent("HomePage");
@@ -18,7 +22,8 @@ let make = (~greeting, _children) => {
   initialState: () => {birthday: None, beforeNow: 0},
   reducer: (action, state) =>
     switch (action) {
-    | SetBirthday(birthday) => ReasonReact.Update({birthday, beforeNow: 0})
+    | SetBirthday(birthday) =>
+      ReasonReact.Update({birthday, beforeNow: initialShowBeforeNow})
     | ShowMore =>
       ReasonReact.Update({...state, beforeNow: state.beforeNow + showMore})
     },
@@ -53,7 +58,7 @@ let make = (~greeting, _children) => {
       | None => ReasonReact.null
       };
     <div>
-      <h2> (ReasonReact.string("What is your birthday?")) </h2>
+      <h2> (ReasonReact.string("When's your birthday?")) </h2>
       <DatePicker onDateChange=(date => self.send(SetBirthday(date))) />
       anniversaries
     </div>;

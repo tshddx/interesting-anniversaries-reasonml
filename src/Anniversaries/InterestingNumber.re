@@ -31,7 +31,7 @@ let numberGenerators = [
   powersOfTen(0) |> makeNumberGenerator("powersOfTen"),
   factorsOfTen |> makeNumberGenerator("factorsOfTen"),
   repeatedDigits |> makeNumberGenerator("repeatedDigits"),
-  countingUp |> makeNumberGenerator("countingUp"),
+  /* countingUp |> makeNumberGenerator("countingUp"), */
 ];
 
 let everyYear =
@@ -58,7 +58,14 @@ let months = ("month", "months", DateFns.addMonths);
 
 let years = ("year", "years", DateFns.addYears);
 
-let dateAdders = [seconds, minutes, hours, days, weeks, months];
+let dateAdders = [
+  seconds,
+  minutes,
+  hours,
+  days,
+  weeks,
+  /* months, */
+];
 
 let pairs =
   product(numberGenerators |> fromList, dateAdders |> fromList)

@@ -6,8 +6,18 @@ let generate = birthday => {
     Anniversary.interestingNumbers(birthday, maxDate) |> List.concat;
   let achievements = Anniversary.achievements(birthday, maxDate);
   let celestialDurations = Anniversary.celestialDurations(birthday, maxDate);
+  let all = ref([]);
+  if (true) {
+    all := List.append(all^, interestingNumbers);
+  };
+  if (true) {
+    all := List.append(all^, achievements);
+  };
+  if (true) {
+    all := List.append(all^, celestialDurations);
+  };
   let anniversaries =
-    List.concat([interestingNumbers, achievements, celestialDurations])
+    all^
     |> List.sort((a: Anniversary.t, b: Anniversary.t) =>
          compare(DateFns.getTime(a.date), DateFns.getTime(b.date))
        );
