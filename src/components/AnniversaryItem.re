@@ -39,30 +39,39 @@ let make =
               className=(
                 "AnniversaryItem__share "
                 ++ (showShare ? "AnniversaryItem__share--shown" : "")
-              )
-              onClick=toggleShowShare>
-              <button
-                className="Button AnniversaryItem__shareButton"
+              )>
+              <a
+                href="https://twitter.com/intent/tweet?text=FOO&url=http://interesting-anniversaries.now.sh"
+                className="Button AnniversaryItem__shareButton AnniversaryItem__shareButton--twitter"
+                target="_blank"
                 onClick=(
                   e => {
-                    ReactEventRe.Mouse.stopPropagation(e);
+                    if (false) {
+                      ReactEventRe.Mouse.stopPropagation(e);
+                    };
+                    toggleShowShare();
                     Js.log("twitter");
                   }
                 )>
                 (ReasonReact.string("Twitter"))
-              </button>
-              <button
-                className="Button AnniversaryItem__shareButton"
+              </a>
+              <a
+                href="https://www.facebook.com/sharer/sharer.php?u=http%3A//example.com/foo&quote=FOO"
+                target="_blank"
+                className="Button AnniversaryItem__shareButton AnniversaryItem__shareButton--facebook"
                 onClick=(
                   e => {
-                    ReactEventRe.Mouse.stopPropagation(e);
+                    if (false) {
+                      ReactEventRe.Mouse.stopPropagation(e);
+                    };
+                    toggleShowShare();
                     Js.log("facebook");
                   }
                 )>
                 (ReasonReact.string("Facebook"))
-              </button>
+              </a>
               <button
-                className="Button AnniversaryItem__shareButton"
+                className="Button AnniversaryItem__shareButton AnniversaryItem__shareButton--cancel"
                 onClick=toggleShowShare>
                 (ReasonReact.string("Cancel"))
               </button>

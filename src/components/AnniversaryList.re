@@ -1,20 +1,15 @@
-type state = {sharingIndex: option(int)};
+let component = ReasonReact.statelessComponent("AnniversaryList");
 
-type action =
-  | SetSharingIndex(int)
-  | ClearSharingIndex;
-
-let component = ReasonReact.reducerComponent("AnniversaryList");
-
-let make = (~anniversaries: array(Anniversary.t), ~isPast: bool, _children) => {
+let make =
+    (
+      ~anniversaries: array(Anniversary.t),
+      ~isPast: bool,
+      ~sharing: option(Anniversary.t),
+      ~setSharing: Anniversary.t => unit,
+      ~clearSharing: unit => unit,
+      _children,
+    ) => {
   ...component,
-  initialState: () => {sharingIndex: Some(0)},
-  reducer: (action, state) =>
-    switch (action) {
-    | SetSharingIndex(index) =>
-      ReasonReact.Update({sharingIndex: Some(index)})
-    | ClearSharingIndex => ReasonReact.Update({sharingIndex: None})
-    },
   render: self => {
     let iterator = anniversaries |> Iterator.fromArray;
     /* |> Iterator.firstChunk((a, b) =>
@@ -30,18 +25,26 @@ let make = (~anniversaries: array(Anniversary.t), ~isPast: bool, _children) => {
                  anniversary=ann
                  isPast
                  isToday=(DateFns.isToday(ann.date))
-                 showShare={
-                             let sharingIndex =
-                               self.state.sharingIndex
-                               |> Utils.optionDefault(-1);
-                             sharingIndex === index;
-                           }
+                 showShare=(
+                   switch (sharing) {
+                   | Some(sharing) =>
+                     let eq2 = ann == sharing;
+                     let eq3 = ann === sharing;
+                     if (eq2) {
+                       Js.log4("compare sharing", eq3, ann, sharing);
+                     };
+                     ann === sharing;
+                   | None => false
+                   }
+                 )
                  setShowShare=(
                    showShare =>
                      if (showShare) {
-                       self.send(SetSharingIndex(index));
+                       Js.log("set sharing");
+                       setSharing(ann);
                      } else {
-                       self.send(ClearSharingIndex);
+                       Js.log("clear sharing");
+                       clearSharing();
                      }
                  )
                />
