@@ -21,7 +21,7 @@ let rec chain = (first, secondGenerator) =>
 
 let andThen = (secondGenerator, first) => chain(first, secondGenerator);
 
-let rec mapRaw = (func, iterator) =>
+let mapRaw = (func, iterator) =>
   switch (iterator()) {
   | Item(item, next) => func(item, next)
   | StopIteration => empty
@@ -35,8 +35,7 @@ let rec mapIter = (make_iterator, iterator) =>
        make_iterator(item) |> andThen(() => next |> mapIter(make_iterator))
      );
 
-let rec map = (func, iterator) =>
-  iterator |> mapIter(item => just(func(item)));
+let map = (func, iterator) => iterator |> mapIter(item => just(func(item)));
 
 let rec mapItem = (func, iterator) =>
   switch (iterator()) {
@@ -44,14 +43,16 @@ let rec mapItem = (func, iterator) =>
   | StopIteration => empty
   };
 
-let rec filter = (predicate, iterator) =>
+let filter = (predicate, iterator) =>
   iterator |> mapIter(item => predicate(item) ? just(item) : empty);
 
-let rec each = func =>
-  map((item, _next) => {
+let rec each = (func: 'a => unit, iterator) =>
+  switch (iterator()) {
+  | Item(item, next) =>
     func(item);
-    ();
-  });
+    each(func, next);
+  | StopIteration => ()
+  };
 
 let rec cycle = iterator => iterator |> andThen(() => cycle(iterator));
 
@@ -71,11 +72,29 @@ let rec take = (count, iterator) =>
     };
   };
 
-let rec takeWhile = (predicate, iterator) =>
+let takeWhile = (predicate, iterator) =>
   iterator
   |> mapItem((item, next) =>
        predicate(item) ? Item(item, next) : StopIteration
      );
+
+/* Converters to and from other data structures */
+/*  */
+let rec toList = iterator =>
+  switch (iterator()) {
+  | Item(item, next) => [item, ...toList(next)]
+  | StopIteration => []
+  };
+
+let rec fromList = (items, ()) =>
+  switch (items) {
+  | [item, ...rest] => Item(item, fromList(rest))
+  | [] => StopIteration
+  };
+
+let toArray = iterator => iterator |> toList |> Array.of_list;
+
+let fromArray = array => array |> Array.to_list |> fromList;
 
 /* Combinatorics */
 /*  */
@@ -84,13 +103,22 @@ let rec takeWhile = (predicate, iterator) =>
 let withItem = (item, iterator) => iterator |> map(item' => (item, item'));
 
 /* Takes two iterators and returns their cartesian product, i.e.
-   product([a, b, c], [1, 2, 3]) is [(a, 1), (b, 2), (c, 3)] */
+   product([a, b], [1, 2]) is [(a, 1), (a, 2), (b, 1), (b, 2)] */
 let product = (a, b) => a |> mapIter(a_item => b |> withItem(a_item));
 
-let cons = size => ();
+let rec combinations2 = iterator =>
+  /* let foo = toList(iterator); */
+  /* iterator |> each(Js.log); */
+  /* Js.log2("combinations2", toList(iterator)); */
+  switch (iterator()) {
+  | Item(item, next) =>
+    /* Js.log(item); */
+    next |> withItem(item) |> andThen(() => combinations2(next))
+  | StopIteration => empty
+  };
 
-let slice = size => ();
-
+/* let cons = size => (); */
+/* let slice = size => (); */
 let firstChunk = (isEqual, iterator) =>
   switch (iterator()) {
   | Item(item, next) =>
@@ -110,9 +138,8 @@ let firstChunkAndRest = (isEqual, iterator) =>
   | StopIteration => empty
   };
 
-let firstChunkBy = (makeKey, iterator) =>
-  firstChunk((a, b) => makeKey(a) == makeKey(b));
-
+/* let firstChunkBy = (makeKey, iterator) =>
+   firstChunk((a, b) => makeKey(a) == makeKey(b)); */
 let chunk = (isEqual, iterator) => {
   let rec helper = (currentChunk, previousItem, iterator) =>
     switch (iterator()) {
@@ -130,36 +157,8 @@ let chunk = (isEqual, iterator) => {
 
 /* itertools that take and return iterators of specific types */
 /* */
-let count = start => {
-  let i = ref(start);
-  let rec loop = () => {
-    let value = i^;
-    i := value + 1;
-    Item(value, loop);
-  };
-  loop;
-};
+let rec count = start => just(start) |> andThen(() => count(start + 1));
 
 let range = (start, finish) => count(start) |> takeWhile(i => i <= finish);
 
 let times = num => range(0, num - 1);
-
-/* Converters to and from other data structures */
-/*  */
-let rec toList = iterator =>
-  /* Note: it will get reversed */
-  switch (iterator()) {
-  | Item(item, next) => [item, ...toList(next)]
-  | StopIteration => []
-  };
-
-let rec fromList = (items, ()) =>
-  /* Note: it will get reversed */
-  switch (items) {
-  | [item, ...rest] => Item(item, fromList(rest))
-  | [] => StopIteration
-  };
-
-let toArray = iterator => iterator |> toList |> Array.of_list;
-
-let fromArray = array => array |> Array.to_list |> fromList;
