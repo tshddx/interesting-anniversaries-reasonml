@@ -13,7 +13,8 @@ let make = (~anniversary: Anniversary.t, ~isPast, ~isToday, _children) => {
     let description =
       switch (anniversary.source) {
       | InterestingNumber(unit, number) =>
-        let n = CommaNumber.commaNumber(number.value);
+        /* let n = CommaNumber.commaNumber(number.value); */
+        let n = Utils.numberInWords2(number.value);
         let description =
           switch (number.description) {
           | Some(description) => {j|($description) |j}
@@ -59,7 +60,7 @@ let text = (anniversary: Anniversary.t, isPast, isToday) => {
   let description =
     switch (anniversary.source) {
     | InterestingNumber(unit, number) =>
-      let n = CommaNumber.commaNumber(number.value);
+      let n = number.value |> Utils.numberInWords2;
       let description =
         switch (number.description) {
         | Some(description) => {j|($description) |j}
