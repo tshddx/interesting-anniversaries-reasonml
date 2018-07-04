@@ -35,11 +35,11 @@ let make =
           )>
           <TwitterButton text url onClick=toggleShowShare />
           <FacebookButton text url onClick=toggleShowShare />
-          <button
-            className="Button AnniversaryItem__shareButton AnniversaryItem__shareButton--cancel"
+          <a
+            className="Button AnniversaryItem__shareButton AnniversaryItem__shareButton--close"
             onClick=toggleShowShare>
             (ReasonReact.string("Close"))
-          </button>
+          </a>
         </div>;
       }
     </div>;
