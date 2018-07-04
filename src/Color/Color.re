@@ -53,6 +53,14 @@ let fromHexString = hexString =>
     None;
   };
 
+let fromHSLuv = (hue, saturation, lightness) => {
+  let h = hue *. 360.0;
+  let s = saturation *. 100.0;
+  let l = lightness *. 100.0;
+  let (r, g, b) = HSLuv.hsluvToRgb((h, s, l));
+  fromRGBu(r, g, b);
+};
+
 let toRGBu = ({r, g, b}: t) => (r, g, b);
 
 let toRGB = ({r, g, b}: t) => (
@@ -63,3 +71,11 @@ let toRGB = ({r, g, b}: t) => (
 
 let toHexString = ({r, g, b}: t) =>
   unitToHexString(r) ++ unitToHexString(g) ++ unitToHexString(b);
+
+let toHSLuv = ({r, g, b}) => {
+  let (hue, saturation, lightness) = HSLuv.rgbToHsluv((r, g, b));
+  let h = hue /. 360.0;
+  let s = saturation /. 100.0;
+  let l = lightness /. 100.0;
+  (h, s, l);
+};
