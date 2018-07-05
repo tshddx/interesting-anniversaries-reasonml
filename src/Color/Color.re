@@ -54,7 +54,8 @@ let fromHexString = hexString =>
   };
 
 let fromHSLuv = (hue, saturation, lightness) => {
-  let h = hue *. 360.0;
+  /* Make hue wrap around to stay between 0.0 and 1.0. */
+  let h = (hue -. (hue |> truncate |> float_of_int)) *. 360.0;
   let s = saturation *. 100.0;
   let l = lightness *. 100.0;
   let (r, g, b) = HSLuv.hsluvToRgb((h, s, l));
@@ -72,6 +73,8 @@ let toRGB = ({r, g, b}: t) => (
 let toHexString = ({r, g, b}: t) =>
   unitToHexString(r) ++ unitToHexString(g) ++ unitToHexString(b);
 
+let toHex = (color: t) => "#" ++ (color |> toHexString);
+
 let toHSLuv = ({r, g, b}) => {
   let (hue, saturation, lightness) = HSLuv.rgbToHsluv((r, g, b));
   let h = hue /. 360.0;
@@ -79,3 +82,23 @@ let toHSLuv = ({r, g, b}) => {
   let l = lightness /. 100.0;
   (h, s, l);
 };
+
+let addHSLuv = (~h=0.0, ~s=0.0, ~l=0.0, color: t) => {
+  let (h', s', l') = color |> toHSLuv;
+  let h'' = h' +. h;
+  let s'' = s' +. s;
+  let l'' = l' +. l;
+  fromHSLuv(h'', s'', l'');
+};
+
+let multHSLuv = (~h=0.0, ~s=1.0, ~l=1.0, color: t) => {
+  let (h', s', l') = color |> toHSLuv;
+  let h'' = h' +. h;
+  let s'' = s' *. s;
+  let l'' = l' *. l;
+  fromHSLuv(h'', s'', l'');
+};
+
+let darken = (~by=0.1) => addHSLuv(~l=-. by);
+
+let lighten = (~by=0.1) => addHSLuv(~l=by);

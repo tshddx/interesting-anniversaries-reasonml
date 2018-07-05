@@ -65,11 +65,11 @@ let validHexStrings = [
 let hsluvs = [
   (0.0, 0.0, 0.0),
   (0.5, 0.0, 0.0),
-  (1.0, 0.0, 0.0),
+  (0.9, 0.0, 0.0),
   (0.0, 0.5, 0.0),
-  (0.0, 1.0, 0.0),
+  (0.0, 0.9, 0.0),
   (0.0, 0.0, 0.5),
-  (0.0, 0.0, 1.0),
+  (0.0, 0.0, 0.9),
 ];
 
 let foo =
@@ -135,6 +135,29 @@ let foo =
                let color' = fromHSLuv(h', s', l');
                test({j|$h, $s, $l|j}, () =>
                  expect(color' |> toHexString)
+                 |> toEqual(color |> toHexString)
+               );
+             })
+        );
+        Skip.describe("multHSLuv", () =>
+          hsluvs
+          |> List.iter(((h, s, l)) => {
+               let color = fromHSLuv(h, s, l);
+               let color' = color |> multHSLuv(~h=0.5, ~s=0.5, ~l=0.5);
+               test({j|$h, $s, $l|j}, () =>
+                 expect(color' |> toHexString)
+                 |> toEqual(color |> toHexString)
+               );
+             })
+        );
+        Only.describe("addHSLuv", () =>
+          hsluvs
+          |> List.iter(((h, s, l)) => {
+               let color = fromHSLuv(h, s, l);
+               let color' = color |> addHSLuv(~h=0.5, ~s=0.5, ~l=0.5);
+               test({j|$h, $s, $l|j}, () =>
+                 expect(color' |> toHexString)
+                 |> not_
                  |> toEqual(color |> toHexString)
                );
              })

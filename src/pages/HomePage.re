@@ -65,7 +65,29 @@ let make = _children => {
         let past = anns.past;
         let shownPast = anns.shownPast;
         let future = anns.future;
+        let colors =
+          [|"d98fb9", "8ed98e", "ffffa8"|]
+          |> Array.map(hexString =>
+               hexString |> Color.fromHexString |> Utils.optionGet
+             );
+        let baseColor = Color.fromHexString("d98fb9") |> Utils.optionGet;
+        let num = 20;
+        let colors =
+          Array.init(num, i =>
+            baseColor
+            |> Color.addHSLuv(
+                 ~h=float_of_int(i) *. 1.0 /. float_of_int(num),
+               )
+          );
+        colors |> Array.iter(color => Js.log(color |> Color.toHSLuv));
         <div className="Anniversaries">
+          <div className="Colors">
+            (
+              colors
+              |> Array.map(color => <Button color />)
+              |> ReasonReact.array
+            )
+          </div>
           (
             Array.length(past) > 0 ?
               <button
