@@ -4,8 +4,10 @@ type state = {
   day: option(int),
 };
 
-/* let initial_state = {year: Some(1995), month: Some(1), day: Some(1)}; */
-/* let initial_state = {year: Some(1987), month: Some(7), day: Some(5)}; */
+let initial_state = {year: Some(1995), month: Some(1), day: Some(1)};
+
+let initial_state = {year: Some(1987), month: Some(7), day: Some(5)};
+
 let initial_state = {year: None, month: None, day: None};
 
 type action =
@@ -112,6 +114,9 @@ let make = (~onDateChange: option(Js.Date.t) => unit, _children) => {
     let yearValue = year |> Utils.optionMap(string_of_int);
     let monthValue = month |> Utils.optionMap(string_of_int);
     let dayValue = day |> Utils.optionMap(string_of_int);
+    let color = Color.fromHSLuv(0.8, 0.6, 0.95);
+    /* let color2 = color |> Color.addHSLuv(~h=0.34);
+       let color3 = color2 |> Color.addHSLuv(~h=0.34); */
     <div className="DatePicker">
       <div className="DatePicker__field">
         <DatePickerSelect
