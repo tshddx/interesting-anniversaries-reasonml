@@ -1,3 +1,5 @@
+open Color;
+
 type state = {
   birthday: option(Js.Date.t),
   anniversaries: option(AnniversaryGenerator.anniversaryList),
@@ -68,23 +70,46 @@ let make = _children => {
         let colors =
           [|"d98fb9", "8ed98e", "ffffa8"|]
           |> Array.map(hexString =>
-               hexString |> Color.fromHexString |> Utils.optionGet
+               hexString |> fromHexString |> Utils.optionGet
              );
-        let baseColor = Color.fromHexString("d98fb9") |> Utils.optionGet;
-        let num = 20;
-        let colors =
-          Array.init(num, i =>
+        let baseColor = fromHSLuv(0.0, 1.0, 0.95);
+        let res = 50;
+        let rows = res;
+        let perRow = res;
+        let bases =
+          Array.init(rows, i =>
             baseColor
             |> Color.addHSLuv(
-                 ~h=float_of_int(i) *. 1.0 /. float_of_int(num),
+                 ~h=float_of_int(i) *. 1.0 /. float_of_int(rows),
                )
           );
-        colors |> Array.iter(color => Js.log(color |> Color.toHSLuv));
+        let add = l => addHPLuv(~h=0.0, ~s=0.0, ~l);
+        let add = l => addHSLuv(~h=0.0, ~s=0.0, ~l);
         <div className="Anniversaries">
-          <div className="Colors">
+          <div className="Colors2">
             (
-              colors
-              |> Array.map(color => <Button color />)
+              bases
+              |> Array.map(base =>
+                   <div className="Colors">
+                     (
+                       Array.init(
+                         perRow,
+                         i => {
+                           let color =
+                             base
+                             |> darken(
+                                  ~by=
+                                    float_of_int(i)
+                                    *. 0.0
+                                    /. float_of_int(perRow),
+                                );
+                           <Button color add />;
+                         },
+                       )
+                       |> ReasonReact.array
+                     )
+                   </div>
+                 )
               |> ReasonReact.array
             )
           </div>

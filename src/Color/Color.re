@@ -62,6 +62,15 @@ let fromHSLuv = (hue, saturation, lightness) => {
   fromRGBu(r, g, b);
 };
 
+let fromHPLuv = (hue, saturation, lightness) => {
+  /* Make hue wrap around to stay between 0.0 and 1.0. */
+  let h = (hue -. (hue |> truncate |> float_of_int)) *. 360.0;
+  let s = saturation *. 100.0;
+  let l = lightness *. 100.0;
+  let (r, g, b) = HSLuv.hpluvToRgb((h, s, l));
+  fromRGBu(r, g, b);
+};
+
 let toRGBu = ({r, g, b}: t) => (r, g, b);
 
 let toRGB = ({r, g, b}: t) => (
@@ -83,6 +92,14 @@ let toHSLuv = ({r, g, b}) => {
   (h, s, l);
 };
 
+let toHPLuv = ({r, g, b}) => {
+  let (hue, saturation, lightness) = HSLuv.rgbToHpluv((r, g, b));
+  let h = hue /. 360.0;
+  let s = saturation /. 100.0;
+  let l = lightness /. 100.0;
+  (h, s, l);
+};
+
 let addHSLuv = (~h=0.0, ~s=0.0, ~l=0.0, color: t) => {
   let (h', s', l') = color |> toHSLuv;
   let h'' = h' +. h;
@@ -91,12 +108,12 @@ let addHSLuv = (~h=0.0, ~s=0.0, ~l=0.0, color: t) => {
   fromHSLuv(h'', s'', l'');
 };
 
-let multHSLuv = (~h=0.0, ~s=1.0, ~l=1.0, color: t) => {
-  let (h', s', l') = color |> toHSLuv;
+let addHPLuv = (~h=0.0, ~s=0.0, ~l=0.0, color: t) => {
+  let (h', s', l') = color |> toHPLuv;
   let h'' = h' +. h;
-  let s'' = s' *. s;
-  let l'' = l' *. l;
-  fromHSLuv(h'', s'', l'');
+  let s'' = s' +. s;
+  let l'' = l' +. l;
+  fromHPLuv(h'', s'', l'');
 };
 
 let darken = (~by=0.1) => addHSLuv(~l=-. by);

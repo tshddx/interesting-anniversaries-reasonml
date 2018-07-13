@@ -1,3 +1,7 @@
+open Utils;
+
+open Color;
+
 let component = ReasonReact.statelessComponent("DatePickerSelect");
 
 let defaultValue = "";
@@ -13,6 +17,7 @@ let make =
       ~defaultLabel: string,
       ~onChange: string => unit,
       ~disabled=false,
+      ~color: Color.t,
       ~className="",
       _children,
     ) => {
@@ -24,8 +29,16 @@ let make =
       | None => Array.append([|(defaultValue, defaultLabel)|], options)
       };
     let value' = value |> Utils.optionDefault(defaultValue);
+    let darker = color |> darken(~by=0.1);
     <select
       className=("DatePicker__select" ++ " " ++ className)
+      style=(
+        ReactDOMRe.Style.make(
+          ~backgroundColor=toHex(color),
+          ~border="1px solid " ++ toHex(darker),
+          (),
+        )
+      )
       value=value'
       onChange=(
         event => {

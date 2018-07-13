@@ -2,11 +2,14 @@ open Color;
 
 let component = ReasonReact.statelessComponent("Button");
 
-let make = (~color: Color.t, children) => {
+let make = (~color: Color.t, ~add: (float, Color.t) => Color.t, children) => {
   ...component,
   render: _self => {
-    let color = color |> lighten(~by=0.1);
-    let other = color |> darken(~by=0.2);
+    /* let color = color |> addHSLuv(~s=0.1); */
+    /* let other = color |> darken(~by=0.1); */
+    let other = color |> add(0.3);
+    let other = color |> add(-0.05);
+    let border = "1px solid " ++ toHex(other);
     <button
       className="Button"
       style=(
@@ -19,5 +22,17 @@ let make = (~color: Color.t, children) => {
       )>
       (ReasonReact.string("button"))
     </button>;
+    <div
+      style=(
+        ReactDOMRe.Style.make(
+          ~margin="0px",
+          ~backgroundColor=toHex(color),
+          ~borderRight=border,
+          ~borderBottom=border,
+          ~flexGrow="1",
+          (),
+        )
+      )
+    />;
   },
 };
