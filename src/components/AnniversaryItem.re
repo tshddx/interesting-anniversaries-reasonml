@@ -27,7 +27,7 @@ let make =
       </div>
       {
         let text = Description.text(anniversary, isPast, isToday);
-        let url = "http://interesting-anniversaries.now.sh";
+        let url = "http://interesting-anniversaries.com";
         <div
           className=(
             "AnniversaryItem__share "
