@@ -15,7 +15,7 @@ let make = (~anniversary: Anniversary.t, _children) => {
     let extraClassName =
       switch (anniversary.source) {
       | InterestingNumber(_, number) =>
-        number.category == "everyYear" ? "" : "Icon--default"
+        number.category == "everyYear" ? "Icon--birthday" : "Icon--default"
       | Achievement(_a) => ""
       | CelestialDuration(_) => ""
       };

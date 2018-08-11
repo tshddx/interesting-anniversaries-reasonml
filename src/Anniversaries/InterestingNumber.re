@@ -38,7 +38,7 @@ let everyYear =
   (
     () =>
       range(1, 100)
-      |> filter(i => i <= 30 || i mod 10 == 0)
+      |> filter(i => i <= 30 || i mod 10 == 0 || true)
       |> map(float_of_int)
   )
   |> makeNumberGenerator("everyYear");

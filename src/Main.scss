@@ -1,0 +1,270 @@
+$color-yellow: #fce043;
+$color-pink: #fb7ba2;
+$color-background: #eaecf1;
+html {
+  font-size: 18px;
+  color: #333;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+html,
+body {
+  height: 100%;
+  background-color: $color-yellow;
+  line-height: 1.3;
+}
+
+a {
+  color: #135abe;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+b {
+  font-weight: 500;
+  color: black;
+}
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#main {
+  padding-bottom: env(safe-area-inset-bottom);
+  height: 100%;
+}
+
+.Main {
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+}
+
+.Row {
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.RowFull {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.Header {
+  background-color: $color-yellow;
+  background-image: linear-gradient(30deg, $color-yellow 20%, $color-pink 80%);
+}
+
+.Footer {
+  background-color: $color-pink;
+  background-image: linear-gradient(330deg, $color-yellow 20%, $color-pink 80%);
+  flex-shrink: 0;
+}
+
+.Main__routeHolder {
+  background-color: $color-background;
+  flex: 1 0 auto;
+
+  box-shadow: inset 0 -30px 50px -50px #333, inset -30px 0 50px -50px #7c8db1,
+    inset 0 30px 50px -50px #333, inset 30px 0 50px -50px #7c8db1;
+}
+
+.Button {
+  color: #333;
+  font-size: 100%;
+  font-weight: 400;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  border: 0;
+  cursor: pointer;
+  background-color: white;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PreviousButton {
+  font-size: 100%;
+  height: 40px;
+  background-color: #cedaf2;
+  margin-bottom: 20px;
+}
+
+.DatePicker {
+  margin-bottom: 20px;
+}
+
+.DatePicker__field {
+  margin-bottom: 10px;
+}
+
+.DatePicker__select {
+  /* border: 1px solid #99d6d4; */
+  color: #333;
+  border: 0;
+  height: 40px;
+  font-size: 100%;
+  width: 200px;
+  border-radius: 5px;
+}
+
+.DatePicker__year {
+  background-color: #faebeb;
+}
+
+.DatePicker__month {
+  background-color: #e3f8e3;
+}
+
+.DatePicker__day {
+  background-color: #f5f8e3;
+}
+
+.AnniversaryList {
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  /* margin-left: -0.15em; */
+}
+
+.Menu {
+  list-style: none;
+}
+
+li {
+  margin-bottom: 0.6em;
+}
+
+hr {
+  margin-bottom: 20px;
+}
+
+.MaxWidth {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.AnniversaryItem {
+  margin-bottom: 20px;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.AnniversaryItem__description {
+  flex-grow: 1;
+  /* To keep the text a bit further away from the right edge. */
+  margin-right: 20px;
+}
+
+.AnniversaryItem__display {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.AnniversaryItem__display--hidden {
+  opacity: 0.25;
+  /* visibility: hidden; */
+}
+
+.AnniversaryItem__share {
+  /* display: none; */
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  /* background-color: rgba(0, 0, 0, 0.25); */
+  width: 100%;
+  height: 100%;
+  /* display: none; */
+  display: flex;
+  transition: opacity 0.2s, transform 0.2s;
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.AnniversaryItem__share--shown {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.AnniversaryItem__shareButton {
+  height: 34px;
+  /* flex-basis: 15%; */
+  /* cursor: pointer; */
+  /* font-size: 100%; */
+}
+
+.AnniversaryItem__shareButton--twitter {
+  background-color: #1b95e0;
+  color: white;
+}
+
+.AnniversaryItem__shareButton--facebook {
+  background-color: rgb(66, 103, 178);
+  color: white;
+}
+
+.AnniversaryItem__shareButton--close {
+  background-color: #979da8;
+  color: white;
+}
+
+.Icon {
+  font-size: 150%;
+  min-width: 50px;
+  /* margin-right: 10px; */
+  /* To keep the icon a bit further away from the left edge. */
+  margin-left: 2px;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  top: -4px;
+  align-self: flex-start;
+  /* background-color: #ccc; */
+}
+
+.Icon--default {
+  font-size: 100%;
+  opacity: 0.65;
+  top: 0;
+  left: 2px;
+}
+.Icon--birthday {
+  top: 0;
+}
+
+.Colors2 {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  z-index: 999;
+  background-color: #808080;
+  padding: 2em;
+  height: 600px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.Colors {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-items: stretch;
+}

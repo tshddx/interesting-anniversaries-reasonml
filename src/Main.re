@@ -1,6 +1,6 @@
-[%bs.raw {|require('../../../src/Main.css')|}];
+[%bs.raw {|require('../../../src/Main.scss')|}];
 
-[%bs.raw {|require('../../../src/favicon.png')|}];
+[%bs.raw {|require('../../../src/favicon-gradient.png')|}];
 
 let s = ReasonReact.string;
 
