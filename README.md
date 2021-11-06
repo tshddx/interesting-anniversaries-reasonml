@@ -4,7 +4,7 @@ Have you ever wanted to know when you turn 2 billion seconds old? How about
 33,333,333 minutes old? When do you get to celebrate your 555,555th hour of
 life? As it turns out, all three of those milestones occur in the same 24-hour
 period! Head over to
-[Interesting Anniversaries](https://interesting-anniversaries.now.sh/) to see
+[Interesting Anniversaries](https://interesting-anniversaries.com/) to see
 when you can celebrate your interesting anniversaries.
 
 # Installation
